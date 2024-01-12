@@ -7,3 +7,8 @@
 @project: Pokémon
 @licence: GPLv3
 """
+
+
+class Game(object):
+    def __init__(self):
+        pass

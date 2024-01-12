@@ -43,3 +43,9 @@ clock = pg.time.Clock()
 #
 MENU_WIDTH = DSP_WIDTH * 1
 MENU_HEIGHT = DSP_HEIGHT * 1
+
+#
+# POKEDEX
+#
+POKEDEX_FILE = 'pokedex/pokedex.json'
+POKEDEX_SAVE_PATH = './save/'
