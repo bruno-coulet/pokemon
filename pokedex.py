@@ -26,7 +26,6 @@ def init_db():
 
     if response.status_code == 200:
         data = response.json()
-        print(len(data))
         with open(POKEDEX_FILE, 'w') as f:
             json.dump(data, f, indent=2)
             print("Initialized Pokedex DB successfully")
@@ -40,6 +39,14 @@ def init_db():
 class Pokedex:
 
     def __init__(self, save=None):
+        if not os.path.isfile(POKEDEX_FILE):
+            try:
+                init_db()
+            except Exception as e:
+                print(f'Exception: {e}')
+        else:
+            print("Pokedex DB is already present.")
+
         if save is None:
             self.data = [None] * self.len_pokedex()
         else:
@@ -93,10 +100,4 @@ class Pokedex:
 
 
 if __name__ == '__main__':
-    if not os.path.isfile(POKEDEX_FILE):
-        try:
-            init_db()
-        except Exception as e:
-            print(f'Exception: {e}')
-    else:
-        print("Pokedex DB is already present.")
+    pass
