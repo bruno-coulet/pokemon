@@ -30,6 +30,12 @@ class Pokemon:
         self.level = 1
         self.evolution = data['evolution']['next']
 
+    def level_up(self, val) -> None:
+        self.level += val
+
+    def get_level(self) -> int:
+        return self.level
+
 
 if __name__ == '__main__':
     pass
