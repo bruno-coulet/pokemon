@@ -12,7 +12,7 @@ import pygame as pg
 ABOUT = [f'POKEMON BATTLE CLONE',
          f'Version: 0.1',
          f'Bruno COULET',
-         f'Ugo D\'AMBROSIO',
+         # f'Ugo D\'AMBROSIO',
          f'Cyril GENISSON',
          ]
 
