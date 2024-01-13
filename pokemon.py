@@ -12,7 +12,7 @@
 class Pokemon:
     def __init__(self, data: dict) -> None:
         self.id_pok = data['pokedexId']
-        self.name = data['name']
+        self.name = data['name']['fr']
         self.height = data['height']
         self.weight = data['weight']
         self.types = []
