@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+@authors: Bruno COULET, Cyril GENISSON
+@file: main.py
+
+@project: Pokémon
+@licence: GPLv3
+"""
+
 from constants import DSP_WIDTH, DSP_HEIGHT
 import random
 import pygame as pg
