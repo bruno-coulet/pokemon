@@ -12,7 +12,7 @@ import pygame as pg
 ABOUT = [f'POKEMON BATTLE CLONE',
          f'Version: 0.1',
          f'Bruno COULET',
-         # f'Ugo D\'AMBROSIO',
+         f'Ugo D\'AMBROSIO',
          f'Cyril GENISSON',
          ]
 
@@ -41,8 +41,8 @@ clock = pg.time.Clock()
 #
 # MENU
 #
-MENU_WIDTH = DSP_WIDTH * 1
-MENU_HEIGHT = DSP_HEIGHT * 1
+MENU_WIDTH = DSP_WIDTH * 0.75
+MENU_HEIGHT = DSP_HEIGHT * 0.75
 
 #
 # POKEDEX
