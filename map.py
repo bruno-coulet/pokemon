@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 @authors: Bruno COULET, Cyril GENISSON
-@file: main.py
+@file: map.py
 
 @project: Pokémon
 @licence: GPLv3
