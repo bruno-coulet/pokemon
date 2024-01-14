@@ -12,7 +12,7 @@ import wget
 import os
 import json
 import datetime
-from constants import POKEDEX_FILE, POKEDEX_SAVE_PATH
+from constants import POKEDEX_FILE, POKEDEX_SAVE_PATH, SP_POK_PATH, SP_TYP_PATH
 
 
 def init_db():

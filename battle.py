@@ -23,13 +23,51 @@ class Battle:
         self.__p2_hp = pokemon2.hp
         self.__p2_atk = pokemon2.atk
         self.__p2_spe_atk = pokemon2.spe_atk
+
+        self.__set_atk_pts()
         if pokedex.get_pokemon(pokemon2.id_pok) is None:
             pokedex.add_pokemon(pokemon2.id_pok)
+
+    def __set_atk_pts(self):
+        m1 = self.__set_coeff_atk(self.p1.types, self.p2.resistances)
+        m2 = self.__set_coeff_atk(self.p2.types, self.p1.resistances)
+        self.__p1_atk, self.__p1_spe_atk = self.__p1_atk * m1, self.__p1_spe_atk * m1
+        self.__p2_atk, self.__p2_spe_atk = self.__p2_atk * m2, self.__p2_spe_atk * m2
+
+    @staticmethod
+    def __set_coeff_atk(types, resistances):
+        m = 0
+        count = 0
+        for k in types:
+            for resist in resistances:
+                if k == resist[0]:
+                    m += resist[1]
+                    count += 1
+        if m != 0:
+            return m / count
+        else:
+            return 1
+
+    def get_atk1(self):
+        return self.__p1_atk
+
+    def get_atk2(self):
+        return self.__p2_atk
+
+    def get_spe_atk1(self):
+        return self.__p1_spe_atk
+
+    def get_spe_atk2(self):
+        return self.__p2_spe_atk
+
+    def get_hp(self):
+        return self.__p1_hp, self.__p2_hp
 
     def attack(self, attacker: Pokemon,  defender: Pokemon):
         pass
 
     def dodge(self, defender: Pokemon):
+
         pass
 
     def flee(self, defender: Pokemon):
