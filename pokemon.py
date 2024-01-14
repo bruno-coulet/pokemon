@@ -28,7 +28,10 @@ class Pokemon:
         for k in data['resistances']:
             self.resistances.append((k['name'], k['multiplier']))
         self.level = 1
-        self.evolution = data['evolution']['next']
+        if data['evolution'] is not None:
+            self.evolution = data['evolution']['next']
+        else:
+            self.evolution = None
 
     def level_up(self, val) -> None:
         self.level += val
