@@ -41,9 +41,17 @@ if __name__ == '__main__':
         gui_battle_instance.draw_pokemon_1_sprite(SCREEN)
         gui_battle_instance.draw_pokemon_2_sprite(SCREEN)
 
-        # Dessine les barre de vie
+        # Dessine les fonds de barre de vie
+        gui_battle_instance.draw_pokemon_1_bar(SCREEN)
+        gui_battle_instance.draw_pokemon_2_bar(SCREEN)
+        # Dessine les de barres de vie
         gui_battle_instance.draw_pokemon_1_life(SCREEN)
-        # gui_battle_instance.draw_pokemon_2_life(SCREEN)
+        gui_battle_instance.draw_pokemon_2_life(SCREEN)
+
+        # Dessine les dégats
+        # gui_battle_instance.draw_pokemon_1_damage(SCREEN)
+        # gui_battle_instance.draw_pokemon_2_damage(SCREEN)
+
 
 
 

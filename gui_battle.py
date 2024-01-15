@@ -46,21 +46,36 @@ class Gui_battle:
     # Dessine pokemon joueur
     def draw_pokemon_1_sprite(self, screen):
         screen.blit(pg.transform.scale(self.pokemon1_sprite, (POK_1_HEIGHT, POK_1_WIDTH)), (POK_1_x, POK_1_y))
-    # Et sa barre de vie
+    # Et le fond de barre
+    def draw_pokemon_1_bar(self, screen):
+        rectangle_position = (POK_1_x,(POK_1_y))
+        rectangle_dimensions = (205, 25)
+        rectangle_color = COLORS["RED"]
+        pg.draw.rect(screen, rectangle_color, ((rectangle_position[0]-2), (rectangle_position[1]-2), rectangle_dimensions[0], rectangle_dimensions[1]))
+    #  et sa barre de vie
     def draw_pokemon_1_life(self, screen):
-        rectangle_position = (POK_1_x,(POK_1_y-512))
-        rectangle_dimensions = (100, 20)
+        rectangle_position = (POK_1_x,(POK_1_y))
+        rectangle_dimensions = (200, 20)
         rectangle_color = COLORS["GREEN"]
         pg.draw.rect(screen, rectangle_color, (rectangle_position[0], rectangle_position[1], rectangle_dimensions[0], rectangle_dimensions[1]))
-       
-        # Utilisez la fonction get_hp de la classe Battle
-        # hp_percentage = battle_instance.get_hp(pokemon_id)
-        # get.battle.get_hp
+    
+
 
     # Dessine pokemon adversaire
     def draw_pokemon_2_sprite(self, screen):
         screen.blit(pg.transform.scale(self.pokemon2_sprite, (POK_2_HEIGHT, POK_2_WIDTH)), (POK_2_x, POK_2_y))
-
+     # Et le fond de barre de vie
+    def draw_pokemon_2_bar(self, screen):
+        rectangle_position = (POK_1_x,(POK_1_y))
+        rectangle_dimensions = (205, 25)
+        rectangle_color = COLORS["RED"]
+        pg.draw.rect(screen, rectangle_color, ((rectangle_position[0]-2), (rectangle_position[1]-2), rectangle_dimensions[0], rectangle_dimensions[1]))
+    #  et sa barre de vie
+    def draw_pokemon_2_life(self, screen):
+        rectangle_position = (POK_2_x,(POK_2_y))
+        rectangle_dimensions = (200, 20)
+        rectangle_color = COLORS["GREEN"]
+        pg.draw.rect(screen, rectangle_color, (rectangle_position[0], rectangle_position[1], rectangle_dimensions[0], rectangle_dimensions[1]))
 
 if __name__ == "__main__":
     battle_gui = Gui_battle()
