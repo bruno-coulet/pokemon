@@ -24,60 +24,41 @@ import pygame as pg
     
     Enfin il faudra une méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de l'écran pour suivre les différentes actions.
 """
+POK_1_HEIGHT = 300
+POK_1_WIDTH = 300
+POK_1_x = 50
+POK_1_y = 290
+
+
+POK_2_HEIGHT = 250
+POK_2_WIDTH = 250
+POK_2_x = 455
+POK_2_y = 125
+
+
+
+
 class Gui_battle:
     def __init__(self):
         pg.init()        
 
         # Charger les sprites des deux Pokémon
         self.pokemon1_sprite = pg.image.load("assets/datas/sprites/Pokemons/1-regular.png")#json_data[id_pok]['sprites']['regular']
-        self.pokemon2_sprite = pg.image.load("assets/datas/sprites/Pokemons/1-regular.png")
+        self.pokemon2_sprite = pg.image.load("assets/datas/sprites/Pokemons/2-regular.png")
 
-    def draw_pokemon_sprite(self, screen, x, y):
-        screen.blit(self.pokemon1_sprite, (x, y))
+    # Dessine pokemon joueur
+    def draw_pokemon_1_sprite(self, screen):
+        screen.blit(pg.transform.scale(self.pokemon1_sprite, (POK_1_HEIGHT, POK_1_WIDTH)), (POK_1_x, POK_1_y))
 
-        # Définir la position initiale des éléments
-        self.pokemon1_position = (100, 400)
-        self.pokemon2_position = (550, 100)
-        self.hp_bar_position = (100, 50)
 
-    def display_pokemon_sprites(self):
-        # Afficher les sprites des deux Pokémon
-        self.screen.blit(self.pokemon1_sprite, self.pokemon1_position)
-        self.screen.blit(self.pokemon2_sprite, self.pokemon2_position)
 
-# -----------   a-modifer début   -------------------
-    def position_sprite(self, x, y):
-        full_screen = pg.Surface([DSP_WIDTH, DSP_HEIGHT])
-        sprite_image = pg.Surface(self.img_size)
-        sprite_image.blit(self.sprite_sheet, (0, 0), (x, y, self.img_width, self.img_height))
-        pg.transform.scale(sprite_image, (DSP_WIDTH, DSP_HEIGHT), full_screen)
-        return full_screen
-# ----------    a-modifer fin   -------------------
+    # # Dessine pokemon adversaire
+    def draw_pokemon_2_sprite(self, screen):
+        screen.blit(pg.transform.scale(self.pokemon2_sprite, (POK_2_HEIGHT, POK_2_WIDTH)), (POK_2_x, POK_2_y))
+
     
-
 
 
 if __name__ == "__main__":
     battle_gui = Gui_battle()
-    battle_gui.run_battle()
-
-
-
-    # def display_hp_bars(self, hp_percentage_pokemon1, hp_percentage_pokemon2):
-    #     # Afficher les barres de HP en fonction du pourcentage de HP restant
-    #     self.screen.blit(self.hp_bar_sprite, self.hp_bar_position)
-
-    #     # Dessiner la barre de HP pour le Pokémon 1
-    #     pg.draw.rect(self.screen, (0, 255, 0), (self.hp_bar_position[0] + 10, self.hp_bar_position[1] + 10,
-    #                                             hp_percentage_pokemon1 * 2, 10))
-
-    #     # Dessiner la barre de HP pour le Pokémon 2
-    #     pg.draw.rect(self.screen, (0, 255, 0), (self.hp_bar_position[0] + 400, self.hp_bar_position[1] + 10,
-    #                                             hp_percentage_pokemon2 * 2, 10))
-
-    # def display_text(self, text):
-    #     # Afficher du texte au milieu de l'écran
-    #     font = pg.font.Font(None, 36)
-    #     text_render = font.render(text, True, (255, 255, 255))
-    #     text_rect = text_render.get_rect(center=(400, 300))
-    #     self.screen.blit(text_render, text_rect)
+    # battle_gui.run_battle()
