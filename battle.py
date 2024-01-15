@@ -7,9 +7,10 @@
 @project: Pokémon
 @licence: GPLv3
 """
-from random import random, randint
+from random import random
 from pokemon import Pokemon
 from pokedex import Pokedex
+from math import log, sqrt
 
 
 class Battle:
@@ -81,10 +82,20 @@ class Battle:
                 self.__p1_hp -= self.__p2_spe_atk
 
     def dodge(self, defender: Pokemon):
-        pass
+        chance_rate = log(1 + random() ** 3) * sqrt(defender.defense * defender.speed)
+        print(chance_rate)
+        if chance_rate > 20:
+            return True
+        else:
+            return False
 
     def flee(self, defender: Pokemon):
-        pass
+        chance_rate = log(1 + random()) * defender.speed ** (1 / 3)
+        print(chance_rate)
+        if chance_rate > 2:
+            return True
+        else:
+            return False
 
 
 if __name__ == '__main__':
