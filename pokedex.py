@@ -64,8 +64,8 @@ class Pokedex:
                 if json_data[id_pok]['sprites']['shiny'] is not None and not os.path.exists(f'{SP_POK_PATH}{id_pok}-shiny.png'):
                     wget.download(json_data[id_pok]['sprites']['shiny'], out=f'{SP_POK_PATH}{id_pok}-shiny.png')
                 for k in json_data[id_pok]['types']:
-                    if not os.path.isfile(f'{SP_TYP_PATH}{k['name']}.png'):
-                        wget.download(k['image'], out=f'{SP_TYP_PATH}{k['name']}.png')
+                    if not os.path.isfile(f'{SP_TYP_PATH}{k["name"]}.png'):
+                        wget.download(k['image'], out=f'{SP_TYP_PATH}{k["name"]}.png')
 
     def save_pokedex(self):
         filename = f'{POKEDEX_SAVE_PATH}' + f'save_{datetime.datetime.now().strftime("%Y%m%d%H%M")}.json'
