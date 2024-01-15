@@ -97,6 +97,13 @@ class Battle:
         else:
             return False
 
+    def change_pok(self, pokemon: Pokemon):
+        self.p1 = pokemon
+        self.__p1_hp = pokemon.hp
+        self.__p1_atk = pokemon.atk
+        self.__p1_spe_atk = pokemon.spe_atk
+        self.__set_atk_pts()
+
 
 if __name__ == '__main__':
     pass
