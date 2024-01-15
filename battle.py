@@ -89,6 +89,9 @@ class Battle:
         else:
             return False
 
+    def damage_bar(self):
+        return round(self.__p1_hp * 100 / self.p1.hp, 1), round(self.__p2_hp * 100 / self.p2.hp, 1)
+
     def flee(self, defender: Pokemon):
         chance_rate = log(1 + random()) * defender.speed ** (1 / 3)
         print(chance_rate)
@@ -96,6 +99,13 @@ class Battle:
             return True
         else:
             return False
+
+    def change_pok(self, pokemon: Pokemon):
+        self.p1 = pokemon
+        self.__p1_hp = pokemon.hp
+        self.__p1_atk = pokemon.atk
+        self.__p1_spe_atk = pokemon.spe_atk
+        self.__set_atk_pts()
 
 
 if __name__ == '__main__':
