@@ -14,8 +14,8 @@ from map import Map
 import pygame as pg
 
 """La class Gui_battle doit avoir toutes les méthodes pour gérer l'affichage des différents éléments:
-    - les 2 sprite des 2 pokémons
-    - leur barre hp progressant au cours des attaques,
+    FAIT    - les 2 sprite des 2 pokémons
+    A FAIRE - leur barre hp progressant au cours des attaques,
     - les boutons avec la gestion de la souris ou du clavier pour les différents choix:
     - attaque
     - attaque spéciale
@@ -29,13 +29,10 @@ POK_1_WIDTH = 300
 POK_1_x = 50
 POK_1_y = 290
 
-
 POK_2_HEIGHT = 250
 POK_2_WIDTH = 250
 POK_2_x = 455
 POK_2_y = 125
-
-
 
 
 class Gui_battle:
@@ -49,14 +46,20 @@ class Gui_battle:
     # Dessine pokemon joueur
     def draw_pokemon_1_sprite(self, screen):
         screen.blit(pg.transform.scale(self.pokemon1_sprite, (POK_1_HEIGHT, POK_1_WIDTH)), (POK_1_x, POK_1_y))
+    # Et sa barre de vie
+    def draw_pokemon_1_life(self, screen):
+        rectangle_position = (POK_1_x,(POK_1_y-512))
+        rectangle_dimensions = (100, 20)
+        rectangle_color = COLORS["GREEN"]
+        pg.draw.rect(screen, rectangle_color, (rectangle_position[0], rectangle_position[1], rectangle_dimensions[0], rectangle_dimensions[1]))
+       
+        # Utilisez la fonction get_hp de la classe Battle
+        # hp_percentage = battle_instance.get_hp(pokemon_id)
+        # get.battle.get_hp
 
-
-
-    # # Dessine pokemon adversaire
+    # Dessine pokemon adversaire
     def draw_pokemon_2_sprite(self, screen):
         screen.blit(pg.transform.scale(self.pokemon2_sprite, (POK_2_HEIGHT, POK_2_WIDTH)), (POK_2_x, POK_2_y))
-
-    
 
 
 if __name__ == "__main__":

@@ -9,8 +9,6 @@ import random
 import pygame as pg
 
 
-
-
 # Initialize Pygame
 pg.init()
 run = True
@@ -36,12 +34,16 @@ if __name__ == '__main__':
             if event.type == pg.QUIT:
                 pg.quit()
     
-        # Dessiner la map sur l'écran
+        # Dessine la map sur l'écran
         SCREEN.blit(map_instance.image, map_instance.rect)
 
-        # Dessiner les sprites des Pokémons
+        # Dessine les sprites des Pokémons
         gui_battle_instance.draw_pokemon_1_sprite(SCREEN)
         gui_battle_instance.draw_pokemon_2_sprite(SCREEN)
+
+        # Dessine les barre de vie
+        gui_battle_instance.draw_pokemon_1_life(SCREEN)
+        # gui_battle_instance.draw_pokemon_2_life(SCREEN)
 
 
 
