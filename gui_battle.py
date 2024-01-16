@@ -13,17 +13,10 @@ from map import Map
 import pygame as pg
 import os
 from random import randint
-"""
-    A faire:
-    - les boutons avec la gestion de la souris ou du clavier pour les différents choix:
-    - attaque
-    - attaque spéciale
-    - fuite
-    - changer de pokémon.
-    
-    Enfin il faudra une méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de
-    l'écran pour suivre les différentes actions.
-"""
+
+"""il faudra une méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de
+    l'écran pour suivre les différentes actions."""
+
 POK_1_HEIGHT = 300
 POK_1_WIDTH = 300
 POK1_DIMS = (300, 300)
@@ -71,6 +64,7 @@ class GuiBattle(Battle):
                      border_radius=20)
 
 
+
 if __name__ == "__main__":
     pg.init()
     dex = Pokedex()
@@ -87,15 +81,15 @@ if __name__ == "__main__":
             if event.type == pg.QUIT:
                 run = False
 
-            SCREEN.blit(map1.image, map1.rect)
-            battle.draw_bar(SCREEN)
-            battle.draw_p1(SCREEN, k=0)
-            battle.draw_p2(SCREEN, k=0)
-            # for i in [1, 0] * 2:
-            #    battle.draw_p1(SCREEN, k=i)
-            #    pg.display.flip()
-            #    pg.time.delay(250)
+        SCREEN.blit(map1.image, map1.rect)
+        battle.draw_bar(SCREEN)
+        battle.draw_p1(SCREEN, k=0)
+        battle.draw_p2(SCREEN, k=0)
+        # for i in [1, 0] * 2:
+        #    battle.draw_p1(SCREEN, k=i)
+        #    pg.display.flip()
+        #    pg.time.delay(250)
 
-            pg.display.flip()
+        pg.display.flip()
 
     pg.quit()

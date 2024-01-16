@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@authors: Cyril GENISSON
+@authors: Cyril GENISSON, Bruno COULET
 @file: constants.py
 
 @project: Pokémon
@@ -24,7 +24,9 @@ COLORS = {'BLACK': (0, 0, 0),
           'BLUE': (0, 0, 255),
           'YELLOW': (255, 255, 0),
           'CYAN': (0, 255, 255),
-          'MAGENTA': (255, 0, 255)}
+          'MAGENTA': (255, 0, 255),
+          'GREY' : (12, 25, 29),
+          'CREME' : (240,240,240)}
 
 #
 # DISPLAY
@@ -37,6 +39,26 @@ pg.display.set_caption("Pokemon Battle Clone")
 ico = pg.image.load('assets/images/Pokeball_icon.svg')
 pg.display.set_icon(ico)
 clock = pg.time.Clock()
+
+
+#
+# BUTTONS
+#
+ATTACK_BTN_X = 380
+ATTACK_BTN_Y = 450
+
+SPECIAL_BTN_X = 590
+SPECIAL_BTN_Y = 450
+
+DODGE_BTN_X = 380
+DODGE_BTN_Y = 525
+
+CHANGE_BTN_X = 590
+CHANGE_BTN_Y = 525
+
+
+
+
 
 #
 # MENU
