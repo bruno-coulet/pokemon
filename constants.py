@@ -20,8 +20,10 @@ ABOUT = [f'POKEMON BATTLE CLONE',
 COLORS = {'BLACK': (0, 0, 0),
           'WHITE': (255, 255, 255),
           'RED': (255, 0, 0),
+          'DARK_RED':(170,15,10),
           'GREEN': (0, 255, 0),
           'BLUE': (0, 0, 255),
+          'DARK_BLUE':(37,47,135),
           'YELLOW': (255, 255, 0),
           'CYAN': (0, 255, 255),
           'MAGENTA': (255, 0, 255),
@@ -44,19 +46,6 @@ clock = pg.time.Clock()
 #
 # BUTTONS
 #
-ATTACK_BTN_X = 380
-ATTACK_BTN_Y = 450
-
-SPECIAL_BTN_X = 590
-SPECIAL_BTN_Y = 450
-
-DODGE_BTN_X = 380
-DODGE_BTN_Y = 525
-
-CHANGE_BTN_X = 590
-CHANGE_BTN_Y = 525
-
-
 
 
 
