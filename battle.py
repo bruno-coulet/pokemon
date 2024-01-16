@@ -90,7 +90,7 @@ class Battle:
             return False
 
     def damage_bar(self):
-        return round(self.__p1_hp * 100 / self.p1.hp, 1), round(self.__p2_hp * 100 / self.p2.hp, 1)
+        return round(self.__p1_hp / self.p1.hp, 1), round(self.__p2_hp / self.p2.hp, 1)
 
     def flee(self, defender: Pokemon):
         chance_rate = log(1 + random()) * defender.speed ** (1 / 3)

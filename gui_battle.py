@@ -1,31 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@authors: Bruno COULET
+@authors: Bruno COULET, Cyril GENISSON
 @file: gui_battle.py
 
 @project: Pokémon
 @licence: GPLv3
 """
-
 from constants import *
 from battle import *
 from map import Map
 import pygame as pg
-
-"""La class Gui_battle doit avoir toutes les méthodes pour gérer l'affichage des différents éléments:
-    FAIT    - les 2 sprite des 2 pokémons
-    A FAIRE - leur barre hp progressant au cours des attaques,
+import os
+from random import randint
+"""
+    A faire:
     - les boutons avec la gestion de la souris ou du clavier pour les différents choix:
     - attaque
     - attaque spéciale
     - fuite
     - changer de pokémon.
     
-    Enfin il faudra une méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de l'écran pour suivre les différentes actions.
+    Enfin il faudra une méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de
+    l'écran pour suivre les différentes actions.
 """
 POK_1_HEIGHT = 300
 POK_1_WIDTH = 300
+POK1_DIMS = (300, 300)
+POK2_DIMS = (250, 250)
 POK_1_x = 50
 POK_1_y = 290
 
@@ -35,48 +37,65 @@ POK_2_x = 455
 POK_2_y = 125
 
 
-class Gui_battle:
-    def __init__(self):
-        pg.init()        
-
+class GuiBattle(Battle):
+    def __init__(self, pokemon1: Pokemon, pokemon2: Pokemon, pokedex: Pokedex):
+        super().__init__(pokemon1, pokemon2, pokedex)
         # Charger les sprites des deux Pokémon
-        self.pokemon1_sprite = pg.image.load("assets/datas/sprites/Pokemons/1-regular.png")#json_data[id_pok]['sprites']['regular']
-        self.pokemon2_sprite = pg.image.load("assets/datas/sprites/Pokemons/2-regular.png")
+        self.__p1_sprites = [pg.image.load(f"{SP_POK_PATH}{self.p1.id_pok}-regular.png")]
+        if os.path.isfile(f'{SP_POK_PATH}{self.p1.id_pok}-shiny.png'):
+            self.__p1_sprites.append(pg.image.load(f"{SP_POK_PATH}{self.p1.id_pok}-shiny.png"))
+        self.__p2_sprites = [pg.image.load(f"{SP_POK_PATH}{self.p2.id_pok}-regular.png")]
+        if os.path.isfile(f'{SP_POK_PATH}{self.p2.id_pok}-shiny.png'):
+            self.__p2_sprites.append(pg.image.load(f"{SP_POK_PATH}{self.p2.id_pok}-shiny.png"))
 
-    # Dessine pokemon joueur
-    def draw_pokemon_1_sprite(self, screen):
-        screen.blit(pg.transform.scale(self.pokemon1_sprite, (POK_1_HEIGHT, POK_1_WIDTH)), (POK_1_x, POK_1_y))
-    # Et le fond de barre
-    def draw_pokemon_1_bar(self, screen):
-        rectangle_position = (POK_1_x,(POK_1_y))
-        rectangle_dimensions = (205, 25)
-        rectangle_color = COLORS["RED"]
-        pg.draw.rect(screen, rectangle_color, ((rectangle_position[0]-2), (rectangle_position[1]-2), rectangle_dimensions[0], rectangle_dimensions[1]))
-    #  et sa barre de vie
-    def draw_pokemon_1_life(self, screen):
-        rectangle_position = (POK_1_x,(POK_1_y))
-        rectangle_dimensions = (200, 20)
-        rectangle_color = COLORS["GREEN"]
-        pg.draw.rect(screen, rectangle_color, (rectangle_position[0], rectangle_position[1], rectangle_dimensions[0], rectangle_dimensions[1]))
-    
+    def draw_p1(self, screen, k):
+        screen.blit(pg.transform.scale(self.__p1_sprites[k], size=POK1_DIMS), (POK_1_x, POK_1_y))
 
+    def draw_p2(self, screen, k):
+        screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
 
-    # Dessine pokemon adversaire
-    def draw_pokemon_2_sprite(self, screen):
-        screen.blit(pg.transform.scale(self.pokemon2_sprite, (POK_2_HEIGHT, POK_2_WIDTH)), (POK_2_x, POK_2_y))
-     # Et le fond de barre de vie
-    def draw_pokemon_2_bar(self, screen):
-        rectangle_position = (POK_1_x,(POK_1_y))
-        rectangle_dimensions = (205, 25)
-        rectangle_color = COLORS["RED"]
-        pg.draw.rect(screen, rectangle_color, ((rectangle_position[0]-2), (rectangle_position[1]-2), rectangle_dimensions[0], rectangle_dimensions[1]))
-    #  et sa barre de vie
-    def draw_pokemon_2_life(self, screen):
-        rectangle_position = (POK_2_x,(POK_2_y))
-        rectangle_dimensions = (200, 20)
-        rectangle_color = COLORS["GREEN"]
-        pg.draw.rect(screen, rectangle_color, (rectangle_position[0], rectangle_position[1], rectangle_dimensions[0], rectangle_dimensions[1]))
+    def draw_bar(self, screen):
+        hp1, hp2 = self.damage_bar()
+        rect_dims = [(254, 10), [250 * hp1, 6], [250 * hp2, 6]]
+
+        rec_ini = (POK_1_x, POK_1_y)
+        pg.draw.rect(screen, COLORS["RED"], ((rec_ini[0] - 2), (rec_ini[1] - 2), rect_dims[0][0], rect_dims[0][1]),
+                     border_radius=20)
+        pg.draw.rect(screen, COLORS["GREEN"], (rec_ini[0], rec_ini[1], rect_dims[1][0], rect_dims[1][1]),
+                     border_radius=20)
+
+        rec_ini = (POK_2_x, POK_2_y)
+        pg.draw.rect(screen, COLORS["RED"], ((rec_ini[0] - 2), (rec_ini[1] - 2), rect_dims[0][0], rect_dims[0][1]),
+                     border_radius=20)
+        pg.draw.rect(screen, COLORS["GREEN"], (rec_ini[0], rec_ini[1], rect_dims[2][0], rect_dims[2][1]),
+                     border_radius=20)
+
 
 if __name__ == "__main__":
-    battle_gui = Gui_battle()
-    # battle_gui.run_battle()
+    pg.init()
+    dex = Pokedex()
+    dex.add_pokemon(1)
+    dex.add_pokemon(2)
+    pok1 = Pokemon(dex.get_pokemon(1))
+    pok2 = Pokemon(dex.get_pokemon(2))
+    battle = GuiBattle(pok1, pok2, dex)
+    map1 = Map()
+
+    run = True
+    while run:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                run = False
+
+            SCREEN.blit(map1.image, map1.rect)
+            battle.draw_bar(SCREEN)
+            battle.draw_p1(SCREEN, k=0)
+            battle.draw_p2(SCREEN, k=0)
+            # for i in [1, 0] * 2:
+            #    battle.draw_p1(SCREEN, k=i)
+            #    pg.display.flip()
+            #    pg.time.delay(250)
+
+            pg.display.flip()
+
+    pg.quit()
