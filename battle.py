@@ -70,21 +70,40 @@ class Battle:
     def attack1(self, atk='atk'):
         match atk:
             case 'atk':
-                self.__p2_hp -= self.__p1_atk
+                if self.__p2_hp >= self.__p1_atk:
+                    self.__p2_hp -= self.__p1_atk
+                else:
+                    self.__p2_hp = 0
             case 'spe':
-                self.__p2_hp -= self.__p1_spe_atk
+                if self.__p2_hp >= self.__p1_spe_atk:
+                    self.__p2_hp -= self.__p1_spe_atk
+                else:
+                    self.__p2_hp = 0
 
     def attack2(self, atk='atk'):
         match atk:
             case 'atk':
-                self.__p1_hp -= self.__p2_atk
+                if self.__p1_hp >= self.__p2_atk:
+                    self.__p1_hp -= self.__p2_atk
+                else:
+                    self.__p1_hp = 0
             case 'spe':
-                self.__p1_hp -= self.__p2_spe_atk
+                if self.__p1_hp >= self.__p2_spe_atk:
+                    self.__p1_hp -= self.__p2_spe_atk
+                else:
+                    self.__p1_hp = 0
 
-    def dodge(self, defender: Pokemon):
+    @staticmethod
+    def dodge(defender: Pokemon):
         chance_rate = log(1 + random() ** 3) * sqrt(defender.defense * defender.speed)
-        print(chance_rate)
         if chance_rate > 20:
+            return True
+        else:
+            return False
+
+    def search_ko(self):
+        x, y = self.get_hp()
+        if x == 0 or y == 0:
             return True
         else:
             return False
@@ -92,8 +111,8 @@ class Battle:
     def damage_bar(self):
         return round(self.__p1_hp / self.p1.hp, 1), round(self.__p2_hp / self.p2.hp, 1)
 
-    def flee(self, defender: Pokemon):
-        chance_rate = log(1 + random()) * defender.speed ** (1 / 3)
+    def flee(self):
+        chance_rate = log(1 + random()) * self.p1.speed ** (1 / 3)
         print(chance_rate)
         if chance_rate > 2:
             return True
@@ -101,11 +120,15 @@ class Battle:
             return False
 
     def change_pok(self, pokemon: Pokemon):
-        self.p1 = pokemon
-        self.__p1_hp = pokemon.hp
-        self.__p1_atk = pokemon.atk
-        self.__p1_spe_atk = pokemon.spe_atk
-        self.__set_atk_pts()
+        if pokemon.id_pok != self.p1.id_pok:
+            self.p1 = pokemon
+            self.__p1_hp = pokemon.hp
+            self.__p1_atk = pokemon.atk
+            self.__p1_spe_atk = pokemon.spe_atk
+            self.__set_atk_pts()
+            return True
+        else:
+            return False
 
 
 if __name__ == '__main__':
