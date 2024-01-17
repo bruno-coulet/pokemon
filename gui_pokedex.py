@@ -42,28 +42,68 @@ pok1 = Pokemon(dex.get_pokemon(current_pokemon))
 
 class GuiPokedex(Pokedex):
 
-    def __init__(self, choose_pokemon_title, x, y, width, height, pok_type ):
+    def __init__(self, title, text, x, y, width, height, pok_type ):
         pg.font.init()
         self.FONT = pg.font.Font(KANIT, 18)
-        self.title = choose_pokemon_title
+        self.title = title
+        self.text = text
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.pok_type = pok_type
 
-    def draw(self, screen):
+    def draw_area(self, screen):
         # crée une surface qui gère la transparence
         description_background = pg.Surface((self.width, self.height), pg.SRCALPHA)
         # crée la surface dans un rectangle
         pg.draw.rect(description_background, TRANSPARENT_BLACK, (0, 0, self.width, self.height), border_radius=20)
         # affiche la surface
         screen.blit(description_background, (self.x, self.y))
-        #  crée un text de description
-        description_text = self.FONT.render(self.title, True, (COLORS['WHITE']))
-        text_rect = description_text.get_rect(center=(self.x + self.width // 2, self.y + self.height - 20))
+
+    def draw_title(self, screen):
+        #  crée un titre de description
+        description_title = self.FONT.render(self.title, True, (COLORS['WHITE']))
+        text_rect = description_title.get_rect(center=(self.x + self.width // 2, self.y+20))
+        # affiche le titre de description
+        screen.blit(description_title, text_rect)
+    
+    def draw_icon(self, screen):
+        # Charger l'icône et crée la surface
+        icon_path = "assets/datas/sprites/Types/Plante.png"
+        icon_surface = pg.image.load(icon_path).convert_alpha()
+        # Afficher l'icône
+        screen.blit(icon_surface, (self.x+self.width//2-30, self.y+50))
+
+    def draw_text(self, screen):
+        description_background = pg.Surface((self.width, self.height), pg.SRCALPHA)
+        # crée une surface dans un rectangle
+        pg.draw.rect(description_background, TRANSPARENT_BLACK, (10, 120, self.width-20, self.height-130), border_radius=20)
+        # affiche la surface
+        screen.blit(description_background, (self.x, self.y))
+        #  crée un texte de description
+        description_text = self.FONT.render(self.text, True, (COLORS['WHITE']))
+        text_rect = description_text.get_rect(center=(self.x + self.width // 2, self.y+150))
         # affiche le texte de description
         screen.blit(description_text, text_rect)
+
+    def draw_picture(sefl, screen):
+        # # Charger l'icône et crée la surface
+        # icon_path = "assets/datas/sprites/Pokemons/1-regular.png"
+        # icon_surface = pg.image.load(icon_path).convert_alpha()
+        # # Afficher l'icône
+        # pg.transform.scale(icon_surface, (200, 200), screen)
+        # screen.blit(icon_surface, (0,0))
+
+        # Charger l'icône et créer la surface
+        icon_path = "assets/datas/sprites/Pokemons/1-regular.png"
+        icon_surface = pg.image.load(icon_path).convert_alpha()
+
+        # Redimensionner l'icône à la taille souhaitée
+        resized_icon = pg.transform.scale(icon_surface, (300, 300))
+
+        # Afficher l'icône sur l'écran
+        screen.blit(resized_icon, (80,100))
 
 class MenuButton(Button):
     def __init__(self, color, btn_text, x, y, width, height, pok_type):
@@ -73,11 +113,11 @@ class MenuButton(Button):
 if __name__ == "__main__":
     pg.init()
     # dex = Pokedex()
-    
+
     menu_background = Map()
 
-    choose_pokemon = GuiPokedex("current Pokemon", 30, 60, 512*3/4, 512*3/4, "pok_type")
-    pokemon_description = GuiPokedex("Pokemon description", (DSP_WIDTH - 350 - 30), 60, 350, 512*3/4, "pok_type")
+    choose_pokemon = GuiPokedex("current Pokemon", None, 30, 60, 512*3/4, 512*3/4, "pok_type")
+    pokemon_description = GuiPokedex("Pokemon description", "texte de description bla bla bla", (DSP_WIDTH - 350 - 30), 60, 350, 512*3/4, "pok_type")
 
     previous_btn = MenuButton(btn_text = "Suivant", color = COLORS['RED'], x = PREV_BTN_X, y = PREV_BTN_Y, width = MENU_BTN_WIDTH, height = MENU_BTN_HEIGHT, pok_type = 'atk_method')
     next_btn = MenuButton(btn_text = "Précedent", color = COLORS['DARK_RED'], x = NEXT_BTN_X, y = NEXT_BTN_Y, width = MENU_BTN_WIDTH, height = MENU_BTN_HEIGHT, pok_type = 'spe_atk')
@@ -91,8 +131,16 @@ if __name__ == "__main__":
                 run = False
 
         SCREEN.blit(menu_background.image, menu_background.rect)
-        choose_pokemon.draw(SCREEN)
-        pokemon_description.draw(SCREEN)
+
+        choose_pokemon.draw_area(SCREEN)
+        choose_pokemon.draw_title(SCREEN)
+        choose_pokemon.draw_picture(SCREEN)
+
+        pokemon_description.draw_area(SCREEN)
+        pokemon_description.draw_title(SCREEN)
+        pokemon_description.draw_icon(SCREEN)
+        pokemon_description.draw_text(SCREEN)
+
         previous_btn.draw(SCREEN)
         next_btn.draw(SCREEN)
         select_btn.draw(SCREEN)
