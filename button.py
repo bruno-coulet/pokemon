@@ -34,8 +34,6 @@ KANIT = 'assets/fonts/kanit_medium.ttf'
 KANIT_BOLD = 'assets/fonts/kanit_extraboldItalic.ttf'
 MARHEY = 'assets/fonts/marhey.ttf'
 
-
-
 class Button:
 
     def __init__(self, btn_text, x, y, width, height, attribute ):
