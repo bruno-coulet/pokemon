@@ -37,6 +37,8 @@ COLORS = {'BLACK': (0, 0, 0),
 #
 DSP_WIDTH = 800
 DSP_HEIGHT = 600
+# DSP_WIDTH =1024
+# DSP_HEIGHT = 768
 FPS = 80
 SCREEN = pg.display.set_mode((DSP_WIDTH, DSP_HEIGHT), 0, 0, 0, 0)
 pg.display.set_caption("Pokemon Battle Clone")
