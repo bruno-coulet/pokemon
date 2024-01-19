@@ -98,7 +98,8 @@ class GuiPokedex(Pokedex):
 
     def draw_picture(self, screen):
         # Charger l'image et crée la surface
-        icon_path = "assets/datas/sprites/Pokemons/1-regular.png"
+        # icon_path = f"assets/datas/sprites/Pokemons/1-regular.png"
+        icon_path = f"assets/datas/sprites/Pokemons/{current_pokemon_id}-regular.png"
         icon_surface = pg.image.load(icon_path).convert_alpha()
         # Redimensionne l'image à la taille souhaitée
         resized_icon = pg.transform.scale(icon_surface, (300, 300))
@@ -170,6 +171,7 @@ if __name__ == "__main__":
     # Read the pokedex data
     pok_data = pokedex.read_pokedex()
     # UN SEUL POKEMON, DONC UN SEUL ELEMENT DANS LA LISTE pok_data, L'INDEX [0]
+    current_pokemon_id = pok_data[0]["pokedexId"]
     current_pokemon_name = pok_data[0]['name']['fr']
     current_pokemon_types = [type_data['name'] for type_data in pok_data[0]['types']]
     current_pokemon_sprite = pok_data[0]['sprites']['regular']
@@ -194,7 +196,7 @@ if __name__ == "__main__":
     menu_background = Map()
     # Instancie le portrait et la description du pokemon
     choose_pokemon = GuiPokedex(current_pokemon_name, None, 30, 60, 512*3/4, 512*3/4)
-    pokemon_description = GuiPokedex("Caractéristiques", "Caractéristiques", (DSP_WIDTH - 350 - 30), 60, 350, 512*3/4)
+    pokemon_description = GuiPokedex("Caractéristiques", f"hp: {current_pokemon_stats_values[1]}\nhp: {current_pokemon_stats_values[1]}",(DSP_WIDTH - 350 - 30), 60, 350, 512*3/4)
     # pokemon_description = GuiPokedex(f"hp: {current_pokemon_stats_values[1]}", str(current_pokemon_stats_values[4]), (DSP_WIDTH - 350 - 30), 60, 350, 512*3/4)
     
     # Instancie les boutons
