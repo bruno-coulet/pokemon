@@ -20,7 +20,7 @@ HOVER_COLOR = (100, 200, 100)
 COLORS['YELLOW'] = COLORS['YELLOW']
 
 pg.font.init()
-FONT_1 = pg.font.Font(MARHEY, 18)
+FONT_1 = pg.font.Font(MARHEY, 25)
 FONT_2 =  pg.font.Font(KANIT, 18)
 
 MENU_BTN_WIDTH = 120
@@ -50,8 +50,6 @@ current_pokemon = 1
 class GuiPokedex(Pokedex):
 
     def __init__(self, title, text, x, y, width, height ):
-        # pg.font.init()
-        self.FONT = FONT_1
         self.title = title
         self.text = text
         self.x = x
@@ -70,18 +68,27 @@ class GuiPokedex(Pokedex):
     # titre de la zone
     def draw_title(self, screen):
         #  crée un titre de description
-        area_title = self.FONT.render(self.title, True, (COLORS['WHITE']))
+        area_title = FONT_1.render(self.title, True, (COLORS['WHITE']))
         text_rect = area_title.get_rect(center=(self.x + self.width // 2, self.y+20))
         # affiche le titre de description
         screen.blit(area_title, text_rect)
     
-    def draw_icon(self, screen):
-        # Charger l'icône et crée la surface
-        icon_path = "assets/datas/sprites/Types/Plante.png"
-        icon_surface = pg.image.load(icon_path).convert_alpha()
-        # Afficher l'icône
-        screen.blit(icon_surface, (self.x+self.width//2-30, self.y+50))
-    # Rectangke gris plus petit
+    def draw_icon(self, screen): 
+    # Charger l'icône et crée la surface
+        icons = current_pokemon_types
+        icon_size = 60
+        spacing = 30  # Adjust the spacing as needed
+        for i, icon in enumerate(icons):
+            icon_path = f"assets/datas/sprites/Types/{icon}.png"
+            try:
+                icon_surface = pg.image.load(icon_path).convert_alpha()
+                # Afficher l'icône
+                icon_x = self.x + self.width // 2 - 70 + i * (icon_size + spacing)
+                screen.blit(icon_surface, (icon_x, self.y + 50))
+            except FileNotFoundError:
+                print(f"File not found: {icon_path}")
+
+    # Rectangle gris plus petit
     def draw_description_area(self, screen):
         # Encore une zone gris transparent en fond
         description_background = pg.Surface((self.width, self.height), pg.SRCALPHA)
@@ -90,21 +97,31 @@ class GuiPokedex(Pokedex):
 
     def draw_description_data(self, screen):
         #  crée le texte de description
-        # La méthode render prend le texte, un booléen pour l'antialiasing, et la couleur du texte en RGB.
-        description_text = self.FONT.render(self.text, True, (COLORS['WHITE']))
-        text_rect = description_text.get_rect(topleft=(self.x + 20, self.y + 150) )
-        # affiche le texte de description
-        screen.blit(description_text, text_rect)
+        # # La méthode render prend le texte, un booléen pour l'antialiasing, et la couleur du texte en RGB.
+        # description_text = self.FONT.render(self.text, True, (COLORS['WHITE']))
+        description_texts = [
+                    f"Points de vie: {current_pokemon_stats_values[0]}",
+                    f"Attaque: {current_pokemon_stats_values[1]}",
+                    f"Défense: {current_pokemon_stats_values[2]}",
+                    f"Attaque Spéciale: {current_pokemon_stats_values[3]}",
+                    f"Défense Spéciale: {current_pokemon_stats_values[4]}",
+                    f"Vitesse: {current_pokemon_stats_values[5]}"
+                             ]
 
-    def draw_picture(self, screen):
+        for i, description_text in enumerate(description_texts):
+            text_surface = FONT_2.render(description_text, True, (COLORS['WHITE']))
+            text_rect = text_surface.get_rect(topleft=(self.x + 20, self.y + 150 + i * 30))
+            screen.blit(text_surface, text_rect)
+            
+    def draw_sprite(self, screen):
         # Charger l'image et crée la surface
-        # icon_path = f"assets/datas/sprites/Pokemons/1-regular.png"
-        icon_path = f"assets/datas/sprites/Pokemons/{current_pokemon_id}-regular.png"
-        icon_surface = pg.image.load(icon_path).convert_alpha()
+        # sprite_path = f"assets/datas/sprites/Pokemons/1-regular.png"
+        sprite_path = f"assets/datas/sprites/Pokemons/{current_pokemon_id}-regular.png"
+        sprite_surface = pg.image.load(sprite_path).convert_alpha()
         # Redimensionne l'image à la taille souhaitée
-        resized_icon = pg.transform.scale(icon_surface, (300, 300))
+        resized_sprite = pg.transform.scale(sprite_surface, (300, 300))
         # Affiche l'image sur l'écran
-        screen.blit(resized_icon, (80,100))
+        screen.blit(resized_sprite, (80,100))
       
 class MenuButton(Button):
     def __init__(self, color, btn_text, x, y, width, height, pok_type):
@@ -223,7 +240,7 @@ if __name__ == "__main__":
         # Appel les méthodes de la zone portrait du pokemon A GAUCHE
         choose_pokemon.draw_area(SCREEN)
         choose_pokemon.draw_title(SCREEN)
-        choose_pokemon.draw_picture(SCREEN)
+        choose_pokemon.draw_sprite(SCREEN)
         # Appel les méthodes de la zone description du pokemon A DROITE
         pokemon_description.draw_area(SCREEN)
         pokemon_description.draw_title(SCREEN)
