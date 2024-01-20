@@ -27,6 +27,7 @@ class Text:
         screen.blit(self.txt_surf, self.position)
 
 
+
 class Button:
     def __init__(self, position, size, clr=COLORS['GREY'], cngclr=None, func=None, text='', font="Segoe Print",
                  font_size=16, font_clr=COLORS['BLACK']):
