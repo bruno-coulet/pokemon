@@ -114,7 +114,6 @@ class GuiDex(Pokedex):
             self.current -= 1
         else:
             self.current = self.len_data - 1
-        print(self.update_view())
 
     def plus_current(self):
         if self.current < self.len_data - 1:
@@ -122,18 +121,6 @@ class GuiDex(Pokedex):
 
         else:
             self.current = 0
-        print(self.update_view())
-
-    def update_view(self):
-        self.current_pokemon_id = self.__data[self.current]["pokedexId"]
-        self.current_pokemon_name = self.__data[self.current]['name']['fr']
-        self.current_pokemon_types = [type_data['name'] for type_data in self.__data[self.current]['types']]
-        self.current_pokemon_sprite = f'{SP_POK_PATH}{self.current_pokemon_id}-regular.png'
-        self.current_pokemon_stats_keys = [stat_data[0:] for stat_data in self.__data[self.current]['stats']]
-        self.current_pokemon_stats_values = [self.__data[self.current]['stats'][stat] for stat in
-                                             ['hp', 'atk', 'def', 'spe_atk', 'spe_def', 'vit']]
-        return (self.current_pokemon_id, self.current_pokemon_name, self.current_pokemon_types,
-                self.current_pokemon_sprite, self.current_pokemon_stats_keys, self.current_pokemon_stats_values)
 
     def display(self):
         pg.init()
@@ -143,7 +130,6 @@ class GuiDex(Pokedex):
         SCREEN.blit(map1.image, map1.rect)
 
         choose_pokemon = GuiRec(self.current_pokemon_name, None, (30, 60), (512 * 3 / 4, 512 * 3 / 4))
-        # pokemon_description = GuiRec("Caractéristiques", None, ((DSP_WIDTH - 350 - 30, 60), (512 * 3 / 4, 512 * 3 / 4)))
         pokemon_description = GuiRec("Caractéristiques", "None", ((DSP_WIDTH - 350 - 30), 60), (350, 512 * 3 / 4))
 
         prev_button = Button(position=(150, 470), size=(100, 50), clr=(220, 220, 220), cngclr=(255, 0, 0),
