@@ -55,7 +55,7 @@ class Pokedex:
         if save is None:
             self.data = [None] * self.len_pokedex()
             for _ in range(5):
-                self.add_pokemon(random.randint(1, 1027))
+                self.add_pokemon(random.randint(1, 1017))
                 time.sleep(0.5)
             self.index_id = []
         else:

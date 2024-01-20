@@ -21,7 +21,7 @@ COLORS['YELLOW'] = COLORS['YELLOW']
 
 pg.font.init()
 FONT_1 = pg.font.Font(MARHEY, 25)
-FONT_2 =  pg.font.Font(KANIT, 18)
+FONT_2 = pg.font.Font(KANIT, 18)
 
 MENU_BTN_WIDTH = 120
 MENU_BTN_HEIGHT = 50
