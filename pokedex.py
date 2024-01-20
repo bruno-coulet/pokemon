@@ -7,11 +7,14 @@
 @project: Pokémon
 @licence: GPLv3
 """
+import random
+
 import requests
 import wget
 import os
 import json
 import datetime
+import time
 from constants import POKEDEX_FILE, POKEDEX_SAVE_PATH, SP_POK_PATH, SP_TYP_PATH
 
 
@@ -34,6 +37,7 @@ def init_db():
     else:
         print("The request failed with status code:", response.status_code)
         print("Retry connexion...")
+        time.sleep(1)
         init_db()
 
 
@@ -50,6 +54,9 @@ class Pokedex:
 
         if save is None:
             self.data = [None] * self.len_pokedex()
+            for _ in range(5):
+                self.add_pokemon(random.randint(1, 1027))
+                time.sleep(0.5)
             self.index_id = []
         else:
             self.data = self.load_pokedex(save)

@@ -12,7 +12,7 @@ import pygame as pg
 ABOUT = [f'POKEMON BATTLE CLONE',
          f'Version: 0.1',
          f'Bruno COULET',
-         f'Ugo D\'AMBROSIO',
+         # f'Ugo D\'AMBROSIO',
          f'Cyril GENISSON',
          ]
 
@@ -39,8 +39,9 @@ DSP_WIDTH = 800
 DSP_HEIGHT = 600
 # DSP_WIDTH =1024
 # DSP_HEIGHT = 768
-FPS = 80
-SCREEN = pg.display.set_mode((DSP_WIDTH, DSP_HEIGHT), 0, 0, 0, 0)
+DSP_SIZE = (DSP_WIDTH, DSP_HEIGHT)
+FPS = 60
+SCREEN = pg.display.set_mode(DSP_SIZE, 0, 0, 0, 0)
 pg.display.set_caption("Pokemon Battle Clone")
 ico = pg.image.load('assets/images/Pokeball_icon.svg')
 pg.display.set_icon(ico)

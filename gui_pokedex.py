@@ -195,20 +195,6 @@ if __name__ == "__main__":
     current_pokemon_stats_keys = [stat_data[0:] for stat_data in pok_data[0]['stats']]
     current_pokemon_stats_values = [pok_data[0]['stats'][stat] for stat in ['hp', 'atk', 'def', 'spe_atk', 'spe_def', 'vit']]
 
-
-    print("Name:", current_pokemon_name)
-    print("Types:", ', '.join(current_pokemon_types))
-    print("Sprite URL:", current_pokemon_sprite)
-    print("stats keys:", ', '.join(current_pokemon_stats_keys))
-    print ("stats values :",current_pokemon_stats_values)
-    print ("Points de vie :",current_pokemon_stats_values[0])
-    print ("Attaque :",current_pokemon_stats_values[1])
-    print ("Defense :",current_pokemon_stats_values[2])
-    print ("Attaque spéciale :",current_pokemon_stats_values[3])
-    print ("Defense spéciale :",current_pokemon_stats_values[4])
-
-
-
     # Instancie le fond
     menu_background = Map()
     # Instancie le portrait et la description du pokemon
@@ -221,7 +207,6 @@ if __name__ == "__main__":
     next_btn = NavButton(btn_text = "Suivant", color = COLORS['DARK_RED'], x = NEXT_BTN_X, y = NEXT_BTN_Y, width = MENU_BTN_WIDTH, height = MENU_BTN_HEIGHT, pok_type = 'spe_atk')
     select_btn = MenuButton(btn_text = "Valider", color = COLORS['LIGHT_BLUE'], x = VALID_BTN_X, y = VALID_BTN_Y, width = MENU_BTN_WIDTH, height = MENU_BTN_HEIGHT, pok_type = '___')
     back_btn = MenuButton(btn_text = "Retour", color = COLORS['DARK_BLUE'], x = BACK_BTN_X, y = BACK_BTN_Y, width = MENU_BTN_WIDTH, height = MENU_BTN_HEIGHT, pok_type = '___')
-
 
     run = True
     while run:
