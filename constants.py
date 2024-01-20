@@ -12,7 +12,7 @@ import pygame as pg
 ABOUT = [f'POKEMON BATTLE CLONE',
          f'Version: 0.1',
          f'Bruno COULET',
-         f'Ugo D\'AMBROSIO',
+         # f'Ugo D\'AMBROSIO',
          f'Cyril GENISSON',
          ]
 
@@ -20,25 +20,31 @@ ABOUT = [f'POKEMON BATTLE CLONE',
 COLORS = {'BLACK': (0, 0, 0),
           'WHITE': (255, 255, 255),
           'RED': (255, 0, 0),
-          'DARK_RED':(170,15,10),
+          'DARK_RED': (170, 15, 10),
           'GREEN': (0, 255, 0),
-          'LIGHT_BLUE':(80,100,200),
+          'LIGHT_BLUE': (80, 100, 200),
           'BLUE': (0, 0, 255),
-          'ORANGE':(215, 165, 55),
-          'DARK_BLUE':(25,35,100),
+          'ORANGE': (215, 165, 55),
+          'DARK_BLUE': (25, 35, 100),
           'YELLOW': (255, 255, 0),
           'CYAN': (0, 255, 255),
           'MAGENTA': (255, 0, 255),
-          'GREY' : (12, 25, 29),
-          'CREME' : (240,240,240)}
+          'GREY': (12, 25, 29),
+          'CREME': (240, 240, 240),
+          'TRANSPARENT_BLACK': (0, 0, 0, 200),
+          'HOVER_COLOR': (100, 200, 100),
+          }
 
 #
 # DISPLAY
 #
 DSP_WIDTH = 800
 DSP_HEIGHT = 600
-FPS = 80
-SCREEN = pg.display.set_mode((DSP_WIDTH, DSP_HEIGHT), 0, 0, 0, 0)
+# DSP_WIDTH =1024
+# DSP_HEIGHT = 768
+DSP_SIZE = (DSP_WIDTH, DSP_HEIGHT)
+FPS = 60
+SCREEN = pg.display.set_mode(DSP_SIZE, 0, 0, 0, 0)
 pg.display.set_caption("Pokemon Battle Clone")
 ico = pg.image.load('assets/images/Pokeball_icon.svg')
 pg.display.set_icon(ico)
@@ -46,9 +52,11 @@ clock = pg.time.Clock()
 
 
 #
-# BUTTONS
+# FONTS
 #
-
+KANIT = 'assets/fonts/kanit_medium.ttf'
+KANIT_BOLD = 'assets/fonts/kanit_extraboldItalic.ttf'
+MARHEY = 'assets/fonts/marhey.ttf'
 
 
 #
