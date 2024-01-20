@@ -72,7 +72,6 @@ if __name__ == "__main__":
     battle = GuiBattle(pok1, pok2, dex)
     map1 = Map()
 
-
     attack_btn = BattleButton(btn_text = "Attaque", color = COLORS['RED'], x = ATTACK_BTN_X, y = ATTACK_BTN_Y, width = BATTLE_BTN_WIDTH, height = BATTLE_BTN_HEIGHT, attribute = 'atk_method')
     special_btn = BattleButton(btn_text = "Attaque spéciale", color = COLORS['DARK_RED'], x = SPECIAL_BTN_X, y = SPECIAL_BTN_Y, width = BATTLE_BTN_WIDTH, height = BATTLE_BTN_HEIGHT, attribute = 'spe_atk')
     dodge_btn = BattleButton(btn_text = "Courage, fuyons !", color = COLORS['LIGHT_BLUE'], x = DODGE_BTN_X, y = DODGE_BTN_Y, width = BATTLE_BTN_WIDTH, height = BATTLE_BTN_HEIGHT, attribute = '___')
@@ -92,7 +91,6 @@ if __name__ == "__main__":
         special_btn.draw(SCREEN)
         dodge_btn.draw(SCREEN)
         change_btn.draw(SCREEN)
-
 
         pg.display.flip()
 
