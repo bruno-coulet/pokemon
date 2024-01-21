@@ -15,7 +15,7 @@ import os
 import json
 import datetime
 import time
-from constants import POKEDEX_FILE, POKEDEX_SAVE_PATH, SP_POK_PATH, SP_TYP_PATH
+from constants import POKEDEX_FILE, POKEDEX_SAVE, SP_POK_PATH, SP_TYP_PATH
 
 
 def init_db():
@@ -57,6 +57,7 @@ class Pokedex:
             for _ in range(5):
                 self.add_pokemon(random.randint(1, 1017))
                 time.sleep(0.5)
+            self.save_pokedex()
             self.index_id = []
         else:
             self.data = self.load_pokedex(save)
@@ -73,9 +74,10 @@ class Pokedex:
                 for k in json_data[id_pok]['types']:
                     if not os.path.isfile(f'{SP_TYP_PATH}{k["name"]}.png'):
                         wget.download(k['image'], out=f'{SP_TYP_PATH}{k["name"]}.png')
+        self.save_pokedex()
 
     def save_pokedex(self):
-        filename = f'{POKEDEX_SAVE_PATH}' + f'save_{datetime.datetime.now().strftime("%Y%m%d%H%M")}.json'
+        filename = f'{POKEDEX_SAVE}'
         with open(filename, 'w') as f:
             json.dump(self.data, f, indent=2)
 

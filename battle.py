@@ -15,7 +15,7 @@ from math import log, sqrt
 
 class Battle:
     def __init__(self, pokemon1: Pokemon, pokemon2: Pokemon, pokedex: Pokedex):
-        self.pokedex = pokedex
+        self.dex = pokedex
 
         self.p1 = pokemon1
         self.__p1_hp = pokemon1.hp
@@ -27,16 +27,24 @@ class Battle:
         self.__p2_atk = pokemon2.atk
         self.__p2_spe_atk = pokemon2.spe_atk
 
+        self.current = self.first_atk()
+
         self.__set_atk_pts()
         if pokedex.get_pokemon(pokemon2.id_pok) is None:
-            self.pokedex.add_pokemon(pokemon2.id_pok)
-            self.pokedex.save_pokedex()
+            self.dex.add_pokemon(pokemon2.id_pok)
+            self.dex.save_pokedex()
+
+    def first_atk(self):
+        if self.p1.speed > self.p2.speed:
+            return 1
+        else:
+            return 2
 
     def __set_atk_pts(self):
         m1 = self.__set_coeff_atk(self.p1.types, self.p2.resistances)
         m2 = self.__set_coeff_atk(self.p2.types, self.p1.resistances)
-        self.__p1_atk, self.__p1_spe_atk = round(self.__p1_atk * m1), round(self.__p1_spe_atk * m1)
-        self.__p2_atk, self.__p2_spe_atk = round(self.__p2_atk * m2), round(self.__p2_spe_atk * m2)
+        self.__p1_atk, self.__p1_spe_atk = round(self.__p1_atk * m1 * 0.5), round(self.__p1_spe_atk * m1 * 0.5)
+        self.__p2_atk, self.__p2_spe_atk = round(self.__p2_atk * m2 * 0.5), round(self.__p2_spe_atk * m2 * 0.5)
 
     @staticmethod
     def __set_coeff_atk(types, resistances):
@@ -120,11 +128,11 @@ class Battle:
             return False
 
     def change_pok(self, pokemon: Pokemon):
-        if pokemon.id_pok != self.p1.id_pok:
-            self.p1 = pokemon
-            self.__p1_hp = pokemon.hp
-            self.__p1_atk = pokemon.atk
-            self.__p1_spe_atk = pokemon.spe_atk
+        if pokemon['pokedexId'] != self.p1.id_pok:
+            self.p1 = Pokemon(pokemon)
+            self.__p1_hp = self.p1.hp
+            self.__p1_atk = self.p1.atk
+            self.__p1_spe_atk = self.p1.spe_atk
             self.__set_atk_pts()
             return True
         else:

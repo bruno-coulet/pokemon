@@ -100,6 +100,35 @@ class GuiDex(Pokedex):
         super().__init__(save=save)
         self.current = 0
         self.__data = self.read_pokedex()
+        print(self.__data)
+        self.len_data = len(self.read_pokedex())
+        self.current_pokemon_id = self.__data[self.current]["pokedexId"]
+        self.current_pokemon_name = self.__data[self.current]['name']['fr']
+        self.current_pokemon_types = [type_data['name'] for type_data in self.__data[self.current]['types']]
+        self.current_pokemon_sprite = f'{SP_POK_PATH}{self.current_pokemon_id}-regular.png'
+        self.current_pokemon_stats_keys = [stat_data[0:] for stat_data in self.__data[self.current]['stats']]
+        self.current_pokemon_stats_values = [self.__data[self.current]['stats'][stat] for stat in
+                                             ['hp', 'atk', 'def', 'spe_atk', 'spe_def', 'vit']]
+        self.runner = True
+
+    def minus_current(self):
+        if self.current > 0:
+            self.current -= 1
+            self.update()
+        else:
+            self.current = self.len_data - 1
+            self.update()
+
+    def plus_current(self):
+        if self.current < self.len_data - 1:
+            self.current += 1
+            self.update()
+
+        else:
+            self.current = 0
+            self.update()
+
+    def update(self):
         self.len_data = len(self.read_pokedex())
         self.current_pokemon_id = self.__data[self.current]["pokedexId"]
         self.current_pokemon_name = self.__data[self.current]['name']['fr']
@@ -109,25 +138,19 @@ class GuiDex(Pokedex):
         self.current_pokemon_stats_values = [self.__data[self.current]['stats'][stat] for stat in
                                              ['hp', 'atk', 'def', 'spe_atk', 'spe_def', 'vit']]
 
-    def minus_current(self):
-        if self.current > 0:
-            self.current -= 1
-        else:
-            self.current = self.len_data - 1
 
-    def plus_current(self):
-        if self.current < self.len_data - 1:
-            self.current += 1
+    def select(self):
+        self.runner = False
 
-        else:
-            self.current = 0
+
+    def quit(self):
+        self.runner = False
 
     def display(self):
         pg.init()
         map1 = Map()
         font_size = 15
         # font = pg.font.Font(None, font_size)
-        SCREEN.blit(map1.image, map1.rect)
 
         choose_pokemon = GuiRec(self.current_pokemon_name, None, (30, 60), (512 * 3 / 4, 512 * 3 / 4))
         pokemon_description = GuiRec("Caractéristiques", "None", ((DSP_WIDTH - 350 - 30), 60), (350, 512 * 3 / 4))
@@ -135,14 +158,12 @@ class GuiDex(Pokedex):
         prev_button = Button(position=(150, 470), size=(100, 50), clr=(220, 220, 220), cngclr=(255, 0, 0),
                              func=self.minus_current, text='Prev.')
         next_button = Button((280, 470), (100, 50), (220, 220, 220), (255, 0, 0), func=self.plus_current, text='Next')
-        # select_button = Button((220, 100), (100))
-        # save_button = Button((220, 100), ())
-        # quit_button = Button((220))
-        # button_list = [prev_button, next_button, select_button, save_button, quit_button]
-        button_list = [prev_button, next_button]
-        # button_list = []
-        runner = True
-        while runner:
+        select_button = Button(position=(570, 470), size=(100, 50), clr=(220, 220, 220), cngclr=(255, 0, 0),
+                             func=self.select, text='Select')
+        quit_button = Button((700, 470), (100, 50), (220, 220, 220), (255, 0, 0), func=self.quit, text='Quit')
+        button_list = [prev_button, next_button, select_button, select_button, quit_button]
+
+        while self.runner:
             SCREEN.blit(map1.image, map1.rect)
             choose_pokemon.draw_area()
             choose_pokemon.draw_title(self.current_pokemon_name)
@@ -155,14 +176,17 @@ class GuiDex(Pokedex):
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    runner = False
+                    self.runner = False
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_ESCAPE:
-                        runner = False
+                        self.runner = False
                     if event.key == pg.K_LEFT:
                         self.minus_current()
                     if event.key == pg.K_RIGHT:
                         self.plus_current()
+                    if event.key == pg.K_s:
+                        self.select()
+
 
                 elif event.type == pg.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -176,7 +200,8 @@ class GuiDex(Pokedex):
 
             pg.display.flip()
             clock.tick(FPS)
-    pass
+        return self.current_pokemon_id
+
 
 
 if __name__ == '__main__':

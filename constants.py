@@ -69,7 +69,7 @@ MENU_HEIGHT = DSP_HEIGHT * 0.75
 # POKEDEX
 #
 POKEDEX_FILE = 'pokedex/pokedex.json'
-POKEDEX_SAVE_PATH = './save/'
+POKEDEX_SAVE = './save/save.json'
 
 #
 # POKEMONS AND TYPES SPRITES PATH
