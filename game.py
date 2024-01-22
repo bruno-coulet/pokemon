@@ -9,6 +9,6 @@
 """
 
 
-class Game(object):
+class Game:
     def __init__(self):
         pass

@@ -47,10 +47,19 @@ class GuiBattle(Battle):
             self.__p2_sprites.append(pg.image.load(f"{SP_POK_PATH}{self.p2.id_pok}-shiny.png"))
 
     def draw_p1(self, k, screen=SCREEN):
-        screen.blit(pg.transform.scale(self.__p1_sprites[k], size=POK1_DIMS), (POK_1_x, POK_1_y))
+        if len(self.__p1_sprites) == 2:
+            screen.blit(pg.transform.scale(self.__p1_sprites[k], size=POK1_DIMS), (POK_1_x, POK_1_y))
+        else:
+            if k == 0:
+                screen.blit(pg.transform.scale(self.__p1_sprites[0], size=POK1_DIMS), (POK_1_x, POK_1_y))
 
     def draw_p2(self, k, screen=SCREEN):
-        screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
+        if len (self.__p2_sprites) == 2:
+            screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
+        else:
+            if k == 0:
+                screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
+
 
     def draw_bar(self, screen=SCREEN):
         hp1, hp2 = self.damage_bar()
@@ -84,6 +93,7 @@ class GuiBattle(Battle):
     def atk1_spe(self):
         if not self.dodge(self.p2) and self.get_hp()[0] > 0:
             self.attack1(atk='spe')
+
             for i in [1, 0] * 2:
                 self.draw_p2(k=i)
                 pg.display.flip()
@@ -94,9 +104,14 @@ class GuiBattle(Battle):
         self.current = 2
         pg.time.delay(250)
 
-    def change(self):
-        pokdex = GuiDex(save=POKEDEX_SAVE)
-        id_pok = pokdex.display()
+    def change(self, id_pokemon=None):
+        if id_pokemon is None:
+            pokdex = GuiDex(save=POKEDEX_SAVE)
+            id_pok = pokdex.display()
+        else:
+            pokdex = GuiDex(save=POKEDEX_SAVE)
+            GuiDex.add_pokemon(id_pok=id_pokemon)
+            id_pok = id_pokemon
         if isinstance(id_pok, int):
             self.change_pok(pokdex.get_pokemon(id_pok))
             self.__p1_sprites = [pg.image.load(f"{SP_POK_PATH}{self.p1.id_pok}-regular.png")]
@@ -155,35 +170,41 @@ class GuiBattle(Battle):
                             self.current = 2
 
                 elif event.type == pg.MOUSEBUTTONDOWN:
-                    if event.button == 1:
+                    if event.button == 1 and self.current == 1:
                         pos = pg.mouse.get_pos()
                         for b in button_list:
                             if b.rect.collidepoint(pos):
                                 b.call_back()
+                                self.current = 2
                                 self.draw_bar()
                                 pg.display.flip()
-                                if self.search_ko():
-                                    break
 
             if self.current == 2:
-                if not self.dodge(self.p1) and self.get_hp()[1] > 0:
-                    self.attack2(atk=random.choice(['atk', 'spe']))
+                if self.get_hp()[1] != 0 and self.get_hp()[0] != 0:
+                    if not self.dodge(self.p1) and self.get_hp()[1] > 0:
+                        self.attack2(atk=random.choice(['atk', 'spe']))
                     for i in [1, 0] * 2:
                         self.draw_p1(k=i)
                         pg.display.flip()
                         pg.time.delay(250)
                     print('Attaque réussie!!!')
                     if self.search_ko():
-                        break
+                        self.current = 0
                 else:
                     print('Attaque ratée')
+                pg.time.delay(1)
                 self.current = 1
                 self.draw_bar()
                 pg.display.flip()
-            if self.get_hp()[1] == 0 and self.get_hp()[0] < 1:
-                if self.p1.evolution != None:
+
+            if self.search_ko():
+                self.current = 0
+
+            if self.current == 0:
+                if self.p1.evolution:
                     self.dex.add_pokemon(self.p1.evolution[0]['pokedexId'])
                     self.dex.save_pokedex()
+                    print(self.p1.evolution[0]['pokedexId'])
                     self.change(self.p1.evolution[0]['pokedexId'])
 
 
@@ -191,11 +212,11 @@ class GuiBattle(Battle):
             self.draw_bar()
             self.draw_p1(k=0)
             self.draw_p2(k=0)
-            for b in button_list:
-                b.draw(SCREEN)
+            if self.current == 1:
+                for b in button_list:
+                    b.draw(SCREEN)
 
             pg.display.flip()
-            print(self.get_hp()[1])
             clock.tick(FPS)
 
 

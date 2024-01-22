@@ -128,7 +128,7 @@ class Battle:
             return False
 
     def change_pok(self, pokemon: Pokemon):
-        if pokemon['pokedexId'] != self.p1.id_pok:
+        if self.p1.id_pok != pokemon['pokedexId']:
             self.p1 = Pokemon(pokemon)
             self.__p1_hp = self.p1.hp
             self.__p1_atk = self.p1.atk
