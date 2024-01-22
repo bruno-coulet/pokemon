@@ -78,11 +78,12 @@ class Button:
 #         Button.__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
         
 class MenuButton(Button):
-    def __init__(self, position, size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='', font=KANIT,
+    def __init__(self, position, size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='', font=KANIT_BOLD,
                  font_size=16, font_clr=BTN_TXT_COLOR):
         super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
         # SANS LA LIGNE CI DESSOSU CA NE MARCHE PAS, ALORS QU'ELLE EST DEJA ligne 53 ?   ?   ?   ?  ?   ?   ?
-        self.font = pg.font.SysFont(font, font_size)
+        # self.font = pg.font.SysFont(font, font_size)
+        self.font = font
 
 
 
