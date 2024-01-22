@@ -43,11 +43,11 @@ class Game:
         # Initialisation des boutons
         # class Button:
         # def __init__(self, position, size, clr=COLORS['GREY'], cngclr=None, func=None, text='', font="Segoe Print", font_size=16, font_clr=COLORS['BLACK']):
-        new_game = MenuButton(position = (100, 100), size = BTN_SIZE, clr= BTN_COLOR, cngclr= BTN_HOVER_COLOR, func=None, text='Nouvelle partie', font_clr = BTN_TXT_COLOR )
-        go_on = MenuButton(position = (100, 150), size = BTN_SIZE, clr= BTN_COLOR, cngclr= BTN_HOVER_COLOR,  func=None, text='Continuer', font_clr = BTN_TXT_COLOR)
-        pokedex = MenuButton((100, 200), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR, text='Pokedex', font_clr = BTN_TXT_COLOR)
-        generic = MenuButton((100, 250), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR, text='Générique', font_clr = BTN_TXT_COLOR)
-        credit = MenuButton((100, 350), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR,  text='Crédits',font_clr = BTN_TXT_COLOR)
+        new_game = MenuButton(position = (200, 100), size = BTN_SIZE, clr= BTN_COLOR, cngclr= BTN_HOVER_COLOR, func=None, text='Nouvelle partie', font_clr = BTN_TXT_COLOR )
+        go_on = MenuButton(position = (300, 200), size = BTN_SIZE, clr= BTN_COLOR, cngclr= BTN_HOVER_COLOR,  func=None, text='Continuer', font_clr = BTN_TXT_COLOR)
+        pokedex = MenuButton((400, 300), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR, text='Pokedex', font_clr = BTN_TXT_COLOR)
+        generic = MenuButton((500, 400), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR, text='Générique', font_clr = BTN_TXT_COLOR)
+        credit = MenuButton((600, 500), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR,  text='Crédits',font_clr = BTN_TXT_COLOR)
 
         pg.display.flip()
 
@@ -68,7 +68,7 @@ class Game:
             credit.draw(SCREEN)
 
             pg.display.flip() 
-            
+
         clock.tick(FPS)
 
 if __name__ == '__main__':
