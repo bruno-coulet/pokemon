@@ -10,6 +10,13 @@
 from constants import *
 import pygame as pg
 
+BTN_WIDTH = 200
+BTN_HEIGHT = 50
+BTN_SIZE = (BTN_WIDTH, BTN_HEIGHT)
+BTN_COLOR = COLORS['LIGHT_BLUE']
+BTN_HOVER_COLOR = COLORS['DARK_BLUE']
+BTN_TXT_COLOR = COLORS['WHITE']
+
 
 class Text:
     def __init__(self, msg, position, clr=COLORS['GREY'], font="Segoe Print", font_size=15, mid=False):
@@ -25,8 +32,6 @@ class Text:
 
     def draw(self, screen):
         screen.blit(self.txt_surf, self.position)
-
-
 
 class Button:
     def __init__(self, position, size, clr=COLORS['GREY'], cngclr=None, func=None, text='', font="Segoe Print",
@@ -66,3 +71,22 @@ class Button:
     def call_back(self, *args, **kwargs):
         if self.func:
             return self.func(*args, **kwargs)
+
+# class MenuButton (Button):
+#     def __init__(self, position, size = BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='', font=KANIT,
+#                  font_size=16, font_clr=COLORS['BLACK']):
+#         Button.__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
+        
+class MenuButton(Button):
+    def __init__(self, position, size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='', font=KANIT,
+                 font_size=16, font_clr=BTN_TXT_COLOR):
+        super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
+        # SANS LA LIGNE CI DESSOSU CA NE MARCHE PAS, ALORS QU'ELLE EST DEJA ligne 53 ?   ?   ?   ?  ?   ?   ?
+        self.font = pg.font.SysFont(font, font_size)
+
+
+
+# class MenuButton ():
+#     def __init__(self, position, size, clr=COLORS['GREY'], cngclr=None, func=None, text='', font="Segoe Print",
+#                  font_size=16, font_clr=COLORS['BLACK']):
+#         pass
