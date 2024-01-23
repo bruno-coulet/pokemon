@@ -33,23 +33,26 @@ POK_2_x = 455
 POK_2_y = 125
 
 
-""" Méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de
+""" Méthode pour afficher un  texte de quelques mots au milieu ou alors dans un encart de
     l'écran pour suivre les différentes actions."""
 pg.font.init()
 police = pg.font.Font(KANIT, 36)
-def creer_texte_avec_fond(texte, police, couleur_texte, couleur_fond):
-    texte_surface = police.render(texte, True, couleur_texte)
-    largeur = texte_surface.get_width()+50
-    hauteur = texte_surface.get_height()+50
-    message_surface = (largeur, hauteur)
-    fond_surface = pg.Surface(message_surface)
-    fond_surface.fill(COLORS['TRANSPARENT_BLACK'])
-    fond_surface.blit(texte_surface, (0, 0))
-    return fond_surface
+def message_with_background(texte, police, couleur_texte, couleur_fond):
+    txt = police.render(texte, True, couleur_texte)
+    width = txt.get_width()+40
+    heigth = txt.get_height()+40
+    x = 20
+    y = 20
+    message_surface = pg.Surface((width, heigth), pg.SRCALPHA)
+    message_surface.fill(COLORS['TRANSPARENT_BLACK'])
+    message_surface.blit(txt, (x, y))
+    return message_surface
+
+
 #  Créer les objets de texte avec fond
-abandon_message = creer_texte_avec_fond("Abandon!", police, COLORS['WHITE'], COLORS['GREY'])
-fail_abandon_message = creer_texte_avec_fond("Abandon!", police, COLORS['WHITE'], COLORS['GREY'])
-fail_attack_message = creer_texte_avec_fond("Attaque ratée!", police, COLORS['WHITE'], COLORS['GREY'])
+abandon_message = message_with_background("Abandon!", police, COLORS['WHITE'], COLORS['GREY'])
+fail_abandon_message = message_with_background("Abandon!", police, COLORS['WHITE'], COLORS['GREY'])
+fail_attack_message = message_with_background("Attaque ratée!", police, COLORS['WHITE'], COLORS['GREY'])
 # Positionner les textes à l'écran
 abandon_message_rect = abandon_message.get_rect(center=(DSP_WIDTH // 2, DSP_HEIGHT // 2))
 fail_abandon_message_rect = abandon_message.get_rect(center=(DSP_WIDTH // 2, DSP_HEIGHT // 2))

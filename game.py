@@ -67,9 +67,8 @@ class Game:
         #  Affiche le fond
         map1 = Map(image="assets/images/cerisier.jpg")
 
-        # Crée un gris_tranparent------------ CA NE MARCHE PAS ligne.108-------------
-        gris_tranparent = pg.Surface((DSP_WIDTH, DSP_HEIGHT), 7
-                                     
+        # Crée un gris_tranparent
+        gris_tranparent = pg.Surface((DSP_WIDTH, DSP_HEIGHT), pg.SRCALPHA)                           
         gris_tranparent.fill((COLORS['TRANSPARENT_BLACK']))
 
   
@@ -87,13 +86,17 @@ class Game:
 
 
         while self.runner:
+           
+            # Affiche le gris transparent
             SCREEN.blit(gris_tranparent, (0, 0))
+            # Affiche les personnages
             SCREEN.blit(map1.image, map1.rect)
             SCREEN.blit(hypocampe, (290,43))
             SCREEN.blit(dinosaure, (-10,160))
             SCREEN.blit(homard, (580,330))
             SCREEN.blit(escargot, (385,130))
             SCREEN.blit(crabe, (490,-30))
+
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.runner = False
@@ -109,8 +112,7 @@ class Game:
                                 self.current = 2
                                 pg.display.flip()
 
-            # Affiche le gris transparent CA MARCHE PAS? IL EST OPAQUE -----------------
-            # SCREEN.blit(gris_tranparent, (0, 0))
+
 
             # Affichage les boutons
             for b in button_list:
