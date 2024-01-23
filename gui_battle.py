@@ -8,6 +8,7 @@
 @licence: GPLv3
 """
 from constants import *
+from math import sqrt, log
 from battle import Battle
 from pokemon import Pokemon
 from pokedex import Pokedex
@@ -16,11 +17,8 @@ from gui_dex import GuiDex
 from map import Map
 import pygame as pg
 import time
-import random
+from random import random, randint, choice
 import os
-
-"""il faudra une méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de
-    l'écran pour suivre les différentes actions."""
 
 POK_1_HEIGHT = 300
 POK_1_WIDTH = 300
@@ -35,6 +33,30 @@ POK_2_x = 455
 POK_2_y = 125
 
 
+""" Méthode spéciale pour afficher un  texte de quelques mots au milieu ou alors dans un encart de
+    l'écran pour suivre les différentes actions."""
+pg.font.init()
+police = pg.font.Font(KANIT, 36)
+def creer_texte_avec_fond(texte, police, couleur_texte, couleur_fond):
+    texte_surface = police.render(texte, True, couleur_texte)
+    largeur = texte_surface.get_width()+50
+    hauteur = texte_surface.get_height()+50
+    message_surface = (largeur, hauteur)
+    fond_surface = pg.Surface(message_surface)
+    fond_surface.fill(COLORS['TRANSPARENT_BLACK'])
+    fond_surface.blit(texte_surface, (0, 0))
+    return fond_surface
+#  Créer les objets de texte avec fond
+abandon_message = creer_texte_avec_fond("Abandon!", police, COLORS['WHITE'], COLORS['GREY'])
+fail_abandon_message = creer_texte_avec_fond("Abandon!", police, COLORS['WHITE'], COLORS['GREY'])
+fail_attack_message = creer_texte_avec_fond("Attaque ratée!", police, COLORS['WHITE'], COLORS['GREY'])
+# Positionner les textes à l'écran
+abandon_message_rect = abandon_message.get_rect(center=(DSP_WIDTH // 2, DSP_HEIGHT // 2))
+fail_abandon_message_rect = abandon_message.get_rect(center=(DSP_WIDTH // 2, DSP_HEIGHT // 2))
+fail_attack_message_message_rect = fail_attack_message.get_rect(center=(DSP_WIDTH // 2, DSP_HEIGHT // 2))
+
+
+
 class GuiBattle(Battle):
     def __init__(self, pokemon1: Pokemon, pokemon2: Pokemon, pokedex: Pokedex):
         super().__init__(pokemon1, pokemon2, pokedex)
@@ -45,6 +67,8 @@ class GuiBattle(Battle):
         self.__p2_sprites = [pg.image.load(f"{SP_POK_PATH}{self.p2.id_pok}-regular.png")]
         if os.path.isfile(f'{SP_POK_PATH}{self.p2.id_pok}-shiny.png'):
             self.__p2_sprites.append(pg.image.load(f"{SP_POK_PATH}{self.p2.id_pok}-shiny.png"))
+        self.escape = False
+        self.runner = True
 
     def draw_p1(self, k, screen=SCREEN):
         if len(self.__p1_sprites) == 2:
@@ -103,6 +127,21 @@ class GuiBattle(Battle):
             print('Attaque ratée!!!')
         self.current = 2
         pg.time.delay(250)
+    
+    def flee(self):
+        chance_rate = log(1 + random()) * self.p1.speed ** (1 / 3)
+        print(chance_rate)
+        if chance_rate > 2:
+            self.runner = False
+            print('Flee activate')
+            SCREEN.blit(abandon_message, abandon_message_rect)
+            self.current = 0
+            pg.display.flip()
+            pg.time.delay(1000)
+
+        else:
+            SCREEN.blit(fail_abandon_message, abandon_message_rect)
+            return False
 
     def change(self, id_pokemon=None):
         if id_pokemon is None:
@@ -110,7 +149,7 @@ class GuiBattle(Battle):
             id_pok = pokdex.display()
         else:
             pokdex = GuiDex(save=POKEDEX_SAVE)
-            GuiDex.add_pokemon(id_pok=id_pokemon)
+            pokdex.add_pokemon(id_pok=id_pokemon)
             id_pok = id_pokemon
         if isinstance(id_pok, int):
             self.change_pok(pokdex.get_pokemon(id_pok))
@@ -139,10 +178,11 @@ class GuiBattle(Battle):
         self.draw_p2(k=0)
         for b in button_list:
             b.draw(SCREEN)
+
         pg.display.flip()
         pg.time.delay(250)
-        runner = True
-        while runner:
+
+        while self.runner:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     runner = False
@@ -161,8 +201,8 @@ class GuiBattle(Battle):
                         if event.key == pg.K_f:
                             if self.flee():
                                 self.current = 0
-                                runner = False
-                                print('Flee')
+                                self.escape = True
+                                self.runner = False
                                 print('Flee activate')
                                 break
                         if event.key == pg.K_c:
@@ -182,7 +222,7 @@ class GuiBattle(Battle):
             if self.current == 2:
                 if self.get_hp()[1] != 0 and self.get_hp()[0] != 0:
                     if not self.dodge(self.p1) and self.get_hp()[1] > 0:
-                        self.attack2(atk=random.choice(['atk', 'spe']))
+                        self.attack2(atk=choice(['atk', 'spe']))
                     for i in [1, 0] * 2:
                         self.draw_p1(k=i)
                         pg.display.flip()
@@ -225,6 +265,6 @@ if __name__ == "__main__":
     dexc = GuiDex(save=POKEDEX_FILE)
     print(dex.read_pokedex())
     print(dex.read_pokedex()[0]['pokedexId'])
-    pok1, pok2 = Pokemon(dex.get_pokemon(dex.read_pokedex()[0]['pokedexId'])), Pokemon(dexc.get_pokemon(random.randint(1, 1017)))
+    pok1, pok2 = Pokemon(dex.get_pokemon(dex.read_pokedex()[0]['pokedexId'])), Pokemon(dexc.get_pokemon(randint(1, 1017)))
     battle = GuiBattle(pok1, pok2, dex)
     battle.play()
