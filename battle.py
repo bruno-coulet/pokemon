@@ -43,8 +43,8 @@ class Battle:
     def __set_atk_pts(self):
         m1 = self.__set_coeff_atk(self.p1.types, self.p2.resistances)
         m2 = self.__set_coeff_atk(self.p2.types, self.p1.resistances)
-        self.__p1_atk, self.__p1_spe_atk = round(self.__p1_atk * m1 * 0.5), round(self.__p1_spe_atk * m1 * 0.5)
-        self.__p2_atk, self.__p2_spe_atk = round(self.__p2_atk * m2 * 0.5), round(self.__p2_spe_atk * m2 * 0.5)
+        self.__p1_atk, self.__p1_spe_atk = round(self.__p1_atk * m1 * 0.3), round(self.__p1_spe_atk * m1 * 0.3)
+        self.__p2_atk, self.__p2_spe_atk = round(self.__p2_atk * m2 * 0.3), round(self.__p2_spe_atk * m2 * 0.3)
 
     @staticmethod
     def __set_coeff_atk(types, resistances):
@@ -125,6 +125,7 @@ class Battle:
         if chance_rate > 2:
             return True
         else:
+
             return False
 
     def change_pok(self, pokemon: Pokemon):
