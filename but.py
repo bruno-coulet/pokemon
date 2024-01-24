@@ -19,7 +19,7 @@ BTN_TXT_COLOR = COLORS['WHITE']
 
 
 class Text:
-    def __init__(self, msg, position, clr=COLORS['GREY'], font="Segoe Print", font_size=15, mid=False):
+    def __init__(self, msg, position, clr=COLORS['CREME'], font="Segoe Print", font_size=15, mid=False):
         self.position = position
         self.font = pg.font.SysFont(font, font_size)
         self.txt_surf = self.font.render(msg, True, clr)
@@ -34,13 +34,14 @@ class Text:
         screen.blit(self.txt_surf, self.position)
 
 class Button:
-    def __init__(self, position, size, clr=COLORS['GREY'], cngclr=None, func=None, text='', font="Segoe Print",
-                 font_size=16, font_clr=COLORS['BLACK']):
+    def __init__(self, position, size, clr=COLORS['LIGHT_BLUE'], cngclr=COLORS['HOVER_COLOR'], func=None, text='', font="Segoe Print",
+                 font_size=16, font_clr=COLORS['CREME']):
         self.clr = clr
         self.size = size
         self.func = func
         self.surf = pg.Surface(size)
         self.rect = self.surf.get_rect(center=position)
+        
 
         if cngclr:
             self.cngclr = cngclr

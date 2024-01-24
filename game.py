@@ -77,11 +77,11 @@ class Game:
 
         # Initialise les boutons
         new_game = MenuButton(position = (200, 100), size = BTN_SIZE, clr= BTN_COLOR, cngclr= BTN_HOVER_COLOR, func=self.play, text='Nouveau combat', font_clr = BTN_TXT_COLOR, font = KANIT )
-        go_on = MenuButton(position = (300, 200), size = BTN_SIZE, clr= BTN_COLOR, cngclr= BTN_HOVER_COLOR,  func=self.loadpokedex, text='Charger sauvegarde', font_clr = BTN_TXT_COLOR)
+        load = MenuButton(position = (300, 200), size = BTN_SIZE, clr= BTN_COLOR, cngclr= BTN_HOVER_COLOR,  func=self.loadpokedex, text='Charger une sauvegarde', font_clr = BTN_TXT_COLOR)
         pokedex = MenuButton((400, 300), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR, func=self.see_pokedex, text='Pokedex', font_clr = BTN_TXT_COLOR)
         generic = MenuButton((500, 400), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR, text='Générique', font_clr = BTN_TXT_COLOR)
         credit = MenuButton((600, 500), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR,  text='Crédits',font_clr = BTN_TXT_COLOR)
-        button_list = [new_game, go_on, pokedex, generic, credit]
+        button_list = [new_game, load, pokedex, generic, credit]
         pg.display.flip()
 
 
