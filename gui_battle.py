@@ -33,14 +33,19 @@ POK_2_WIDTH = 250
 POK_2_x = 455
 POK_2_y = 125
 
+BTL_BTN_SIZE = (180, 50)
+COLOR = COLORS['LIGHT_BLUE']
+HOVER_COLOR = COLORS['HOVER_COLOR']
+
 pg.font.init()
 SCREEN_CENTER = (DSP_WIDTH//2, DSP_HEIGHT//2)
-MESSAGE_POLICE = pg.font.Font(KANIT, 30)
+ACTION_MESSAGE_POLICE = pg.font.Font(KANIT, 30)
+TURN_MESSAGE_POLICE = pg.font.Font(KANIT, 20)
 
 
-""" Afficher un texte en fonction des actions."""
-def message_with_background(texte, MESSAGE_POLICE, couleur_texte, couleur_fond):
-    txt = MESSAGE_POLICE.render(texte, True, couleur_texte)
+""" Affiche un texte en fonction des actions."""
+def message(texte, ACTION_MESSAGE_POLICE, couleur_texte):
+    txt = ACTION_MESSAGE_POLICE.render(texte, True, couleur_texte)
     width = txt.get_width()+40
     heigth = txt.get_height()+40
     x = 20
@@ -49,24 +54,30 @@ def message_with_background(texte, MESSAGE_POLICE, couleur_texte, couleur_fond):
     message_surface.fill(COLORS['TRANSPARENT_BLACK'])
     message_surface.blit(txt, (x, y))
     return message_surface
-#  Créer les objets de texte avec fond
-abandon_message = message_with_background("Abandonner le combat!", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-failed_abandon_message = message_with_background("Echec de l'abandon!", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-attack_message = message_with_background("Attaque!", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-failed_attack_message = message_with_background("Attaque ratée!", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-special_attack_message = message_with_background("Attaque spéciale !", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-failed_special_attack_message = message_with_background("Attaque spéciale ratée!", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-win_message = message_with_background("Victoire !", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-loose_message = message_with_background("Game over !", MESSAGE_POLICE, COLORS['WHITE'], COLORS['GREY'])
-# Positionner les textes au centre de l'écran
-abandon_message_rect = abandon_message.get_rect(center=SCREEN_CENTER)
-failed_abandon_message_rect = failed_abandon_message.get_rect(center=SCREEN_CENTER)
-attack_message_rect = attack_message.get_rect(center=SCREEN_CENTER)
-failed_attack_message_rect = failed_attack_message.get_rect(center=SCREEN_CENTER)
-special_attack_message_rect = special_attack_message.get_rect(center=SCREEN_CENTER)
-failed_special_attack_message_rect = failed_special_attack_message.get_rect(center=SCREEN_CENTER)
-win_message_rect =  win_message.get_rect(center=SCREEN_CENTER)
-loose_message_rect =  win_message.get_rect(center=SCREEN_CENTER)
+
+message_dict = {
+"abandon_message" :               "message('Abandonner le combat!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), abandon_message.get_rect(center=SCREEN_CENTER)",
+"failed_abandon_message" :        "message('Echec de l'abandon!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), failed_abandon_message.get_rect(center=SCREEN_CENTER)",
+"attack_message" :                "message('Attaque!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), attack_message.get_rect(center=SCREEN_CENTER)",
+"failed_attack_message" :         "message('Attaque ratée!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), failed_attack_message.get_rect(center=SCREEN_CENTER)",
+"special_attack_message" :        "message('Attaque spéciale !', ACTION_MESSAGE_POLICE, COLORS['WHITE']),special_attack_message.get_rect(center=SCREEN_CENTER)",
+"failed_special_attack_message" : "message('Attaque spéciale ratée!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), failed_special_attack_message.get_rect(center=SCREEN_CENTER)",
+"win_message" :                   "message('Victoire !', ACTION_MESSAGE_POLICE, COLORS['WHITE']), win_message.get_rect(center=SCREEN_CENTER)",
+"loose_message ":                 "message('Game over !', ACTION_MESSAGE_POLICE, COLORS['WHITE']), loose_message.get_rect(center=SCREEN_CENTER)",
+"your_turn_message" :             "message('A vous de jouer !', TURN_MESSAGE_POLICE, COLORS['WHITE']), your_turn_message.get_rect(topleft=(50,200))",
+"opponent_turn_message" :         "message('Au tour de votre adversaire de jouer', TURN_MESSAGE_POLICE, COLORS['WHITE']), opponent_turn_message.get_rect(topleft=(200,30))"
+}
+
+
+def call_message(self, message_index = None):
+    self.message_index = message_index
+    SCREEN.blit(message_dict[message_index])
+
+def call_message(self, message_index = None):
+    self.message_index = message_index
+    SCREEN.blit(message_dict[message_index])
+    pg.display.flip()
+    pg.time.delay(2000)
 
 class GuiBattle(Battle):
     def __init__(self, pokemon1: Pokemon, pokemon2: Pokemon, pokedex: Pokedex):
@@ -81,14 +92,14 @@ class GuiBattle(Battle):
         self.escape = False
         self.runner = True
 
-    def draw_p1(self, k, screen=SCREEN):
+    def draw_pokemon_1(self, k, screen=SCREEN):
         if len(self.__p1_sprites) == 2:
             screen.blit(pg.transform.scale(self.__p1_sprites[k], size=POK1_DIMS), (POK_1_x, POK_1_y))
         else:
             if k == 0:
                 screen.blit(pg.transform.scale(self.__p1_sprites[0], size=POK1_DIMS), (POK_1_x, POK_1_y))
 
-    def draw_p2(self, k, screen=SCREEN):
+    def draw_pokemon_2(self, k, screen=SCREEN):
         if len (self.__p2_sprites) == 2:
             screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
         else:
@@ -114,20 +125,21 @@ class GuiBattle(Battle):
     def atk1(self):
         if not self.dodge(self.p2) and self.get_hp()[0] > 0:
             self.attack1()
-            SCREEN.blit(attack_message, attack_message_rect)
-            pg.display.flip()
-            pg.time.delay(1000)
+            # SCREEN.blit(attack_message, attack_message_rect)
+            # pg.display.flip()
+            # pg.time.delay(1000)
+            call_message(attack_message)
             for i in [1, 0] * 2:
-                self.draw_p2(k=i)
+                self.draw_pokemon_2(k=i)
                 pg.display.flip()
                 pg.time.delay(250)
             print('Attaque réussie!!!')
             self.current = 0
 
         else:
-            SCREEN.blit(failed_attack_message, failed_attack_message_rect)
-            pg.display.flip()
-            pg.time.delay(1000)
+            # SCREEN.blit(failed_attack_message, failed_attack_message_rect)
+            # pg.display.flip()
+            # pg.time.delay(1000)
             print('Attaque ratée!!!')
             self.current = 0
 
@@ -137,20 +149,20 @@ class GuiBattle(Battle):
     def atk1_spe(self):
         if not self.dodge(self.p2) and self.get_hp()[0] > 0:
             self.attack1(atk='spe')
-            SCREEN.blit(special_attack_message, special_attack_message_rect)
-            pg.display.flip()
-            pg.time.delay(1000)
+            # SCREEN.blit(special_attack_message, special_attack_message_rect)
+            # pg.display.flip()
+            # pg.time.delay(1000)
             for i in [1, 0] * 2:
-                self.draw_p2(k=i)
+                self.draw_pokemon_2(k=i)
                 pg.display.flip()
                 pg.time.delay(250)
             print('Attaque réussie!!!')
             self.current = 0
 
         else:
-            SCREEN.blit(failed_special_attack_message, failed_special_attack_message_rect)
-            pg.display.flip()
-            pg.time.delay(1000)
+            # SCREEN.blit(failed_special_attack_message, failed_special_attack_message_rect)
+            # pg.display.flip()
+            # pg.time.delay(1000)
             print('Attaque ratée!!!')
             self.current = 0
 
@@ -158,9 +170,9 @@ class GuiBattle(Battle):
         pg.time.delay(250)
     
     def flee(self):
-        SCREEN.blit(abandon_message, abandon_message_rect)
-        pg.display.flip()
-        pg.time.delay(1000)
+        # SCREEN.blit(abandon_message, abandon_message_rect)
+        # pg.display.flip()
+        # pg.time.delay(1000)
         chance_rate = log(1 + random()) * self.p1.speed ** (1 / 3)
         print(chance_rate)
         if chance_rate > 2:
@@ -170,10 +182,10 @@ class GuiBattle(Battle):
 
 
         else:
-            SCREEN.blit(failed_abandon_message, abandon_message_rect)
-            self.current = 0
-            pg.display.flip()
-            pg.time.delay(1000)
+            # SCREEN.blit(failed_abandon_message, abandon_message_rect)
+            # self.current = 0
+            # pg.display.flip()
+            # pg.time.delay(1000)
             return False
 
     def change(self, id_pokemon=None):
@@ -194,28 +206,28 @@ class GuiBattle(Battle):
         pg.init()
         map1 = Map()
         font_size = 15
-        """ button area"""
+        
         button_area_width = 420
         button_area_height = 150
         button_area = pg.Surface((button_area_width, button_area_height), SRCALPHA)
         button_area.fill(COLORS['TRANSPARENT_BLACK'])
         button_area_rect = button_area.get_rect(topleft=(370, 430))
 
-        atk = Button(position=(480, 470), size=(180, 50), clr=(COLORS['LIGHT_BLUE']), cngclr=(COLORS['HOVER_COLOR']),
-                     func=self.atk1, text='Attaque')
-        spe_atk = Button((680, 470), (180, 50), COLORS['LIGHT_BLUE'], COLORS['HOVER_COLOR'],
-                         func=self.atk1_spe, text='Attaque spéciale')
-        flee = Button((480, 540), (180, 50), COLORS['LIGHT_BLUE'], COLORS['HOVER_COLOR'],
-                      func=self.flee, text='Abandon')
-        change = Button((680, 540), (180, 50),
-                        func=self.change, text='Changer de Pokemon')
+        atk = Button(position=(480, 470), size=BTL_BTN_SIZE, func=self.atk1, text='Attaque')
+        
+        spe_atk = Button((680, 470), BTL_BTN_SIZE, func=self.atk1_spe, text='Attaque spéciale')
+        
+        flee = Button((480, 540), BTL_BTN_SIZE, func=self.flee, text='Abandon')
+        
+        change = Button((680, 540), BTL_BTN_SIZE, func=self.change, text='Changer de Pokemon')
+        
         button_list = [atk, spe_atk, flee, change]
 
         SCREEN.blit(map1.image, map1.rect)
         SCREEN.blit(button_area, button_area_rect)
         self.draw_bar()
-        self.draw_p1(k=0)
-        self.draw_p2(k=0)
+        self.draw_pokemon_1(k=0)
+        self.draw_pokemon_2(k=0)
         for b in button_list:
             b.draw(SCREEN)
 
@@ -230,6 +242,9 @@ class GuiBattle(Battle):
                     if event.key == pg.K_ESCAPE:
                         runner = False
                     if self.current == 1:
+                        # SCREEN.blit(your_turn_message, your_turn_message_rect)
+                        # pg.display.flip()
+                        call_message(8)
                         if event.key == pg.K_a:
                             self.atk1()
                             self.draw_bar()
@@ -260,11 +275,13 @@ class GuiBattle(Battle):
                                 pg.display.flip()
 
             if self.current == 2:
+                # SCREEN.blit(opponent_turn_message, opponent_turn_message_rect)
+                # pg.display.flip()
                 if self.get_hp()[1] != 0 and self.get_hp()[0] != 0:
                     if not self.dodge(self.p1) and self.get_hp()[1] > 0:
                         self.attack2(atk=choice(['atk', 'spe']))
                     for i in [1, 0] * 2:
-                        self.draw_p1(k=i)
+                        self.draw_pokemon_1(k=i)
                         pg.display.flip()
                         pg.time.delay(250)
                     print('Attaque réussie!!!')
@@ -272,9 +289,10 @@ class GuiBattle(Battle):
                         self.current = 0
                         hp1, hp2 = self.get_hp()
                         if hp1 == 0:
-                            SCREEN.blit(loose_message, loose_message_rect)
-                            pg.display.flip()
-                            pg.time.delay(3000)
+                            # SCREEN.blit(loose_message, loose_message_rect)
+                            # pg.display.flip()
+                            # pg.time.delay(3000)
+                            call_message(8)
                             break
                         else:
                             SCREEN.blit(win_message, win_message_rect)
@@ -302,8 +320,8 @@ class GuiBattle(Battle):
             SCREEN.blit(map1.image, map1.rect)
             SCREEN.blit(button_area, button_area_rect)
             self.draw_bar()
-            self.draw_p1(k=0)
-            self.draw_p2(k=0)
+            self.draw_pokemon_1(k=0)
+            self.draw_pokemon_2(k=0)
             if self.current == 1:
                 for b in button_list:
                     b.draw(SCREEN)
