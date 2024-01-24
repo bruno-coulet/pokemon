@@ -42,43 +42,6 @@ SCREEN_CENTER = (DSP_WIDTH//2, DSP_HEIGHT//2)
 ACTION_MESSAGE_POLICE = pg.font.Font(KANIT, 30)
 TURN_MESSAGE_POLICE = pg.font.Font(KANIT, 20)
 
-
-""" Affiche un texte en fonction des actions."""
-def message(texte, ACTION_MESSAGE_POLICE, couleur_texte):
-    txt = ACTION_MESSAGE_POLICE.render(texte, True, couleur_texte)
-    width = txt.get_width()+40
-    heigth = txt.get_height()+40
-    x = 20
-    y = 20
-    message_surface = pg.Surface((width, heigth), pg.SRCALPHA)    
-    message_surface.fill(COLORS['TRANSPARENT_BLACK'])
-    message_surface.blit(txt, (x, y))
-    return message_surface
-
-message_dict = {
-"abandon_message" :               "message('Abandonner le combat!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), abandon_message.get_rect(center=SCREEN_CENTER)",
-"failed_abandon_message" :        "message('Echec de l'abandon!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), failed_abandon_message.get_rect(center=SCREEN_CENTER)",
-"attack_message" :                "message('Attaque!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), attack_message.get_rect(center=SCREEN_CENTER)",
-"failed_attack_message" :         "message('Attaque ratée!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), failed_attack_message.get_rect(center=SCREEN_CENTER)",
-"special_attack_message" :        "message('Attaque spéciale !', ACTION_MESSAGE_POLICE, COLORS['WHITE']),special_attack_message.get_rect(center=SCREEN_CENTER)",
-"failed_special_attack_message" : "message('Attaque spéciale ratée!', ACTION_MESSAGE_POLICE, COLORS['WHITE']), failed_special_attack_message.get_rect(center=SCREEN_CENTER)",
-"win_message" :                   "message('Victoire !', ACTION_MESSAGE_POLICE, COLORS['WHITE']), win_message.get_rect(center=SCREEN_CENTER)",
-"loose_message ":                 "message('Game over !', ACTION_MESSAGE_POLICE, COLORS['WHITE']), loose_message.get_rect(center=SCREEN_CENTER)",
-"your_turn_message" :             "message('A vous de jouer !', TURN_MESSAGE_POLICE, COLORS['WHITE']), your_turn_message.get_rect(topleft=(50,200))",
-"opponent_turn_message" :         "message('Au tour de votre adversaire de jouer', TURN_MESSAGE_POLICE, COLORS['WHITE']), opponent_turn_message.get_rect(topleft=(200,30))"
-}
-
-
-def call_message(self, message_index = None):
-    self.message_index = message_index
-    SCREEN.blit(message_dict[message_index])
-
-def call_message(self, message_index = None):
-    self.message_index = message_index
-    SCREEN.blit(message_dict[message_index])
-    pg.display.flip()
-    pg.time.delay(2000)
-
 class GuiBattle(Battle):
     def __init__(self, pokemon1: Pokemon, pokemon2: Pokemon, pokedex: Pokedex):
         super().__init__(pokemon1, pokemon2, pokedex)
@@ -121,14 +84,48 @@ class GuiBattle(Battle):
                      border_radius=20)
         pg.draw.rect(screen, COLORS["GREEN"], (rec_ini[0], rec_ini[1], rect_dims[2][0], rect_dims[2][1]),
                      border_radius=20)
+    
+    def message(texte, ACTION_MESSAGE_POLICE, couleur_texte):
+        txt = ACTION_MESSAGE_POLICE.render(texte, True, couleur_texte)
+        width = txt.get_width()+40
+        heigth = txt.get_height()+40
+        x = 20
+        y = 20
+        message_surface = pg.Surface((width, heigth), pg.SRCALPHA)    
+        message_surface.fill(COLORS['TRANSPARENT_BLACK'])
+        message_surface.blit(txt, (x, y))
+        return message_surface
+    
+    attack_message = message('Attaque!', ACTION_MESSAGE_POLICE, COLORS['WHITE'])
+    attack_message_rect = attack_message.get_rect(center=SCREEN_CENTER)
+    abandon_message = message('Abandonner le combat!', ACTION_MESSAGE_POLICE, COLORS['WHITE'])
+    abandon_message_rect = abandon_message.get_rect(center=SCREEN_CENTER)
+
+    MESSAGES = {
+        "abandon_message":                  message('Abandonner le combat!', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "failed_abandon_message":           message('Echec de l\'abandon!', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "attack_message" :                  message('Attaque!', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "failed_attack_message" :           message('Attaque ratée!', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "special_attack_message":           message('Attaque spéciale !', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "failed_special_attack_message":    message('Attaque spéciale ratée!', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "win_message" :                     message('Victoire !', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "loose_message ":                   message('Game over !', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
+        "your_turn_message" :               message('A vous de jouer !', TURN_MESSAGE_POLICE, COLORS['WHITE']),
+        "opponent_turn_message" :           message('Au tour de votre adversaire de jouer', TURN_MESSAGE_POLICE, COLORS['WHITE'])
+        }
+
+    message_index = None
+
+    def call_message(self, message=None):
+        if message in self.MESSAGES:
+            SCREEN.blit(self.MESSAGES[message], self.MESSAGES[message].get_rect(center=SCREEN_CENTER))
+            pg.display.flip()
+            pg.time.delay(2000)
 
     def atk1(self):
         if not self.dodge(self.p2) and self.get_hp()[0] > 0:
             self.attack1()
-            # SCREEN.blit(attack_message, attack_message_rect)
-            # pg.display.flip()
-            # pg.time.delay(1000)
-            call_message(attack_message)
+            self.call_message("attack_message")
             for i in [1, 0] * 2:
                 self.draw_pokemon_2(k=i)
                 pg.display.flip()
@@ -137,9 +134,7 @@ class GuiBattle(Battle):
             self.current = 0
 
         else:
-            # SCREEN.blit(failed_attack_message, failed_attack_message_rect)
-            # pg.display.flip()
-            # pg.time.delay(1000)
+            self.call_message("failed_attack_message")
             print('Attaque ratée!!!')
             self.current = 0
 
@@ -149,10 +144,9 @@ class GuiBattle(Battle):
     def atk1_spe(self):
         if not self.dodge(self.p2) and self.get_hp()[0] > 0:
             self.attack1(atk='spe')
-            # SCREEN.blit(special_attack_message, special_attack_message_rect)
-            # pg.display.flip()
-            # pg.time.delay(1000)
+
             for i in [1, 0] * 2:
+                self.call_message("special_attack_message")
                 self.draw_pokemon_2(k=i)
                 pg.display.flip()
                 pg.time.delay(250)
@@ -160,9 +154,7 @@ class GuiBattle(Battle):
             self.current = 0
 
         else:
-            # SCREEN.blit(failed_special_attack_message, failed_special_attack_message_rect)
-            # pg.display.flip()
-            # pg.time.delay(1000)
+            self.call_message("failed_special_attack_message")
             print('Attaque ratée!!!')
             self.current = 0
 
@@ -170,9 +162,8 @@ class GuiBattle(Battle):
         pg.time.delay(250)
     
     def flee(self):
-        # SCREEN.blit(abandon_message, abandon_message_rect)
-        # pg.display.flip()
-        # pg.time.delay(1000)
+        self.call_message("abandon_message")
+
         chance_rate = log(1 + random()) * self.p1.speed ** (1 / 3)
         print(chance_rate)
         if chance_rate > 2:
@@ -242,9 +233,7 @@ class GuiBattle(Battle):
                     if event.key == pg.K_ESCAPE:
                         runner = False
                     if self.current == 1:
-                        # SCREEN.blit(your_turn_message, your_turn_message_rect)
-                        # pg.display.flip()
-                        call_message(8)
+                        self.call_message("your_turn_message")
                         if event.key == pg.K_a:
                             self.atk1()
                             self.draw_bar()
@@ -275,8 +264,7 @@ class GuiBattle(Battle):
                                 pg.display.flip()
 
             if self.current == 2:
-                # SCREEN.blit(opponent_turn_message, opponent_turn_message_rect)
-                # pg.display.flip()
+                self.call_message("opponent_turn_message")
                 if self.get_hp()[1] != 0 and self.get_hp()[0] != 0:
                     if not self.dodge(self.p1) and self.get_hp()[1] > 0:
                         self.attack2(atk=choice(['atk', 'spe']))
@@ -292,12 +280,13 @@ class GuiBattle(Battle):
                             # SCREEN.blit(loose_message, loose_message_rect)
                             # pg.display.flip()
                             # pg.time.delay(3000)
-                            call_message(8)
+                            # call_message(loose_message)
                             break
                         else:
-                            SCREEN.blit(win_message, win_message_rect)
-                            pg.display.flip()
-                            pg.time.delay(3000)
+                            # SCREEN.blit(win_message, win_message_rect)
+                            # pg.display.flip()
+                            # pg.time.delay(3000)
+                            # call_message(attack_message)
                             break
                 else:
                     print('Attaque ratée')
