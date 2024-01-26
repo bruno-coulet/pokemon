@@ -26,7 +26,7 @@ POK_1_WIDTH = 300
 POK1_DIMS = (300, 300)
 POK2_DIMS = (250, 250)
 POK_1_x = 50
-POK_1_y = 290
+POK_1_y = 200
 
 POK_2_HEIGHT = 250
 POK_2_WIDTH = 250
@@ -56,18 +56,33 @@ class GuiBattle(Battle):
         self.runner = True
 
     def draw_pokemon_1(self, k, screen=SCREEN):
+
+        ellipse_surface = pg.Surface((300, 800), pg.SRCALPHA)
+        pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_CREME'], (0,0, 300, 80))
+        pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_GREEN'], (5,5, 290, 70), width=5)
+        pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_YELLOW'], (0,0, 300, 80), width=5)
+        screen.blit(ellipse_surface, (POK_1_x, POK_1_y + 200))
+        
         if len(self.__p1_sprites) == 2:
             screen.blit(pg.transform.scale(self.__p1_sprites[k], size=POK1_DIMS), (POK_1_x, POK_1_y))
         else:
             if k == 0:
                 screen.blit(pg.transform.scale(self.__p1_sprites[0], size=POK1_DIMS), (POK_1_x, POK_1_y))
+        
 
     def draw_pokemon_2(self, k, screen=SCREEN):
+        ellipse_surface = pg.Surface((320, 120), pg.SRCALPHA)
+        pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_CREME'], (0,0, 300, 80))
+        pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_RED'], (5,5, 290, 70), width=5)
+        pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_YELLOW'], (0,0, 300, 80), width=5)
+        screen.blit(ellipse_surface, (POK_2_x, POK_2_y + 200))
+
         if len (self.__p2_sprites) == 2:
             screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
         else:
             if k == 0:
                 screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
+        
 
     def draw_bar(self, screen=SCREEN):
         hp1, hp2 = self.damage_bar()
@@ -85,10 +100,11 @@ class GuiBattle(Battle):
         pg.draw.rect(screen, COLORS["GREEN"], (rec_ini[0], rec_ini[1], rect_dims[2][0], rect_dims[2][1]),
                      border_radius=20)
     
-    def message(texte, ACTION_MESSAGE_POLICE, couleur_texte):
+    def message(texte, ACTION_MESSAGE_POLICE, couleur_texte ):
         txt = ACTION_MESSAGE_POLICE.render(texte, True, couleur_texte)
         width = txt.get_width()+40
         heigth = txt.get_height()+40
+
         x = 20
         y = 20
         message_surface = pg.Surface((width, heigth), pg.SRCALPHA)    
@@ -96,11 +112,6 @@ class GuiBattle(Battle):
         message_surface.blit(txt, (x, y))
         return message_surface
     
-    attack_message = message('Attaque!', ACTION_MESSAGE_POLICE, COLORS['WHITE'])
-    attack_message_rect = attack_message.get_rect(center=SCREEN_CENTER)
-    abandon_message = message('Abandonner le combat!', ACTION_MESSAGE_POLICE, COLORS['WHITE'])
-    abandon_message_rect = abandon_message.get_rect(center=SCREEN_CENTER)
-
     MESSAGES = {
         "abandon_message":                  message('Abandonner le combat!', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
         "failed_abandon_message":           message('Echec de l\'abandon!', ACTION_MESSAGE_POLICE, COLORS['WHITE']),
@@ -232,6 +243,7 @@ class GuiBattle(Battle):
                 elif event.type == pg.KEYDOWN:
                     if event.key == pg.K_ESCAPE:
                         runner = False
+
                     if self.current == 1:
                         self.call_message("your_turn_message")
                         if event.key == pg.K_a:
@@ -277,18 +289,11 @@ class GuiBattle(Battle):
                         self.current = 0
                         hp1, hp2 = self.get_hp()
                         if hp1 == 0:
-                            # SCREEN.blit(loose_message, loose_message_rect)
-                            # pg.display.flip()
-                            # pg.time.delay(3000)
-                            # call_message(loose_message)
                             break
                         else:
-                            # SCREEN.blit(win_message, win_message_rect)
-                            # pg.display.flip()
-                            # pg.time.delay(3000)
-                            # call_message(attack_message)
                             break
                 else:
+                    self.call_message("failed_attack_message")
                     print('Attaque ratée')
                 pg.time.delay(1)
                 self.current = 1
