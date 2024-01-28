@@ -202,7 +202,6 @@ class GuiBattle(Battle):
 
     def play(self):
         pg.init()
-        font_size = 15
         button_area_width = 420
         button_area_height = 150
         button_area = pg.Surface((button_area_width, button_area_height), pg.SRCALPHA)
