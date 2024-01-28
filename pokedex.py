@@ -8,12 +8,10 @@
 @licence: GPLv3
 """
 import random
-
+import urllib.request
 import requests
-import wget
 import os
 import json
-import datetime
 import time
 from constants import POKEDEX_FILE, POKEDEX_SAVE, SP_POK_PATH, SP_TYP_PATH
 
@@ -39,6 +37,8 @@ def init_db():
         print("Retry connexion...")
         time.sleep(1)
         init_db()
+
+
 
 
 class Pokedex:
@@ -68,12 +68,16 @@ class Pokedex:
                 json_data = json.load(f)
                 self.data[id_pok] = json_data[id_pok]
                 if json_data[id_pok]['sprites']['regular'] is not None and not os.path.exists(f'{SP_POK_PATH}{id_pok}-regular.png'):
-                    wget.download(json_data[id_pok]['sprites']['regular'], out=f'{SP_POK_PATH}{id_pok}-regular.png')
+                    urllib.request.urlretrieve(json_data[id_pok]['sprites']['regular'], f'{SP_POK_PATH}{id_pok}-regular.png')
+                    # wget.download(json_data[id_pok]['sprites']['regular'], out=f'{SP_POK_PATH}{id_pok}-regular.png')
                 if json_data[id_pok]['sprites']['shiny'] is not None and not os.path.exists(f'{SP_POK_PATH}{id_pok}-shiny.png'):
-                    wget.download(json_data[id_pok]['sprites']['shiny'], out=f'{SP_POK_PATH}{id_pok}-shiny.png')
+                    urllib.request.urlretrieve(json_data[id_pok]['sprites']['shiny'],
+                                               f'{SP_POK_PATH}{id_pok}-shiny.png')
+                    # wget.download(json_data[id_pok]['sprites']['shiny'], out=f'{SP_POK_PATH}{id_pok}-shiny.png')
                 for k in json_data[id_pok]['types']:
                     if not os.path.isfile(f'{SP_TYP_PATH}{k["name"]}.png'):
-                        wget.download(k['image'], out=f'{SP_TYP_PATH}{k["name"]}.png')
+                        urllib.request.urlretrieve(k['image'], f'{SP_TYP_PATH}{k["name"]}.png')
+                        # wget.download(k['image'], out=f'{SP_TYP_PATH}{k["name"]}.png')
         self.save_pokedex()
 
     def save_pokedex(self):

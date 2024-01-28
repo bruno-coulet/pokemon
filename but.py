@@ -33,15 +33,15 @@ class Text:
     def draw(self, screen):
         screen.blit(self.txt_surf, self.position)
 
+
 class Button:
-    def __init__(self, position, size, clr=COLORS['LIGHT_BLUE'], cngclr=COLORS['HOVER_COLOR'], func=None, text='', font="Segoe Print",
-                 font_size=16, font_clr=COLORS['CREME']):
+    def __init__(self, position, size, clr=COLORS['LIGHT_BLUE'], cngclr=COLORS['HOVER_COLOR'], func=None, text='',
+                 font="Segoe Print", font_size=16, font_clr=COLORS['CREME']):
         self.clr = clr
         self.size = size
         self.func = func
         self.surf = pg.Surface(size)
         self.rect = self.surf.get_rect(center=position)
-        
 
         if cngclr:
             self.cngclr = cngclr
@@ -73,22 +73,10 @@ class Button:
         if self.func:
             return self.func(*args, **kwargs)
 
-# class MenuButton (Button):
-#     def __init__(self, position, size = BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='', font=KANIT,
-#                  font_size=16, font_clr=COLORS['BLACK']):
-#         Button.__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
         
 class MenuButton(Button):
-    def __init__(self, position, size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='', font=KANIT_BOLD,
-                 font_size=16, font_clr=BTN_TXT_COLOR):
+    def __init__(self, position, size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='',
+                 font=KANIT_BOLD, font_size=16, font_clr=BTN_TXT_COLOR):
         super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
-        # SANS LA LIGNE CI DESSOSU CA NE MARCHE PAS, ALORS QU'ELLE EST DEJA ligne 53 ?   ?   ?   ?  ?   ?   ?
         # self.font = pg.font.SysFont(font, font_size)
         self.font = font
-
-
-
-# class MenuButton ():
-#     def __init__(self, position, size, clr=COLORS['GREY'], cngclr=None, func=None, text='', font="Segoe Print",
-#                  font_size=16, font_clr=COLORS['BLACK']):
-#         pass

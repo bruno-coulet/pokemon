@@ -78,7 +78,7 @@ POKEDEX_SAVE = './save/save.json'
 #
 # POKEMONS AND TYPES SPRITES PATH
 #
-SP_POK_PATH = './assets/datas/sprites/Pokemons/'
-SP_TYP_PATH = './assets/datas/sprites/Types/'
+SP_POK_PATH = 'assets/datas/sprites/Pokemons/'
+SP_TYP_PATH = 'assets/datas/sprites/Types/'
 
 

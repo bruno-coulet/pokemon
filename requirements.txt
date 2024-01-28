@@ -2,4 +2,4 @@ pygame-ce
 pygame-menu-ce
 requests
 datetime
-wget
+pygamevideo
