@@ -16,7 +16,7 @@ class Generic:
         self.pause = False
 
     def play(self):
-        SCREEN = pg.display.set_mode((1024, 768), 0, 0, 0, 0)
+        pg.display.set_mode((1024, 768), 0, 0, 0, 0)
         self.generic.play(loop=True)
 
         runner = True
@@ -38,4 +38,4 @@ class Generic:
                         runner = False
 
             pg.display.flip()
-        SCREEN = pg.display.set_mode(DSP_SIZE, 0, 0, 0, 0)
+        pg.display.set_mode(DSP_SIZE, 0, 0, 0, 0)

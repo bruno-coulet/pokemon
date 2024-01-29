@@ -56,6 +56,7 @@ class Button:
         self.font_clr = font_clr
         self.txt_surf = self.font.render(self.txt, True, self.font_clr)
         self.txt_rect = self.txt_surf.get_rect(center=[wh // 2 for wh in self.size])
+        self.curclr = self.clr
 
     def draw(self, screen):
         self.mouse_over()

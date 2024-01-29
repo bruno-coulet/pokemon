@@ -60,7 +60,8 @@ class Game:
         battle = GuiBattle(pok1, pok2, dex)
         battle.play()
 
-    def generic(self):
+    @staticmethod
+    def generic():
         g = Generic()
         g.play()
 

@@ -34,8 +34,8 @@ COLORS = {'BLACK': (0, 0, 0),
           'CREME': (240, 240, 240),
           'TRANSPARENT_CREME': (240, 240, 240, 150),
           'TRANSPARENT_BLACK': (0, 0, 0, 150),
-          'TRANSPARENT_RED':(200, 0, 0, 150),
-          'TRANSPARENT_GREEN':(0, 200, 0, 150),
+          'TRANSPARENT_RED': (200, 0, 0, 150),
+          'TRANSPARENT_GREEN': (0, 200, 0, 150),
           'HOVER_COLOR': (100, 200, 100),
           }
 
@@ -80,5 +80,3 @@ POKEDEX_SAVE = './save/save.json'
 #
 SP_POK_PATH = 'assets/datas/sprites/Pokemons/'
 SP_TYP_PATH = 'assets/datas/sprites/Types/'
-
-
