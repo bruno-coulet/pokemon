@@ -83,6 +83,12 @@ class GuiRec:
 
 class GuiDex(Pokedex):
     def __init__(self, save=None):
+        """Initialise 
+
+        Args: fichier json, optional
+        
+        Récupère les info du pokemon pour affichage    
+        """
         super().__init__(save=save)
         self.current = 0
         self.__data = self.read_pokedex()
@@ -98,6 +104,7 @@ class GuiDex(Pokedex):
         self.runner = True
 
     def minus_current(self):
+        """Alterne le joueur"""
         if self.current > 0:
             self.current -= 1
             self.update()
@@ -106,6 +113,7 @@ class GuiDex(Pokedex):
             self.update()
 
     def plus_current(self):
+        """Alterne le joueur"""
         if self.current < self.len_data - 1:
             self.current += 1
             self.update()
@@ -115,6 +123,7 @@ class GuiDex(Pokedex):
             self.update()
 
     def update(self):
+        """Met à jour les infos du pokemon pour affichage"""
         self.len_data = len(self.read_pokedex())
         self.current_pokemon_id = self.__data[self.current]["pokedexId"]
         self.current_pokemon_name = self.__data[self.current]['name']['fr']
@@ -131,6 +140,7 @@ class GuiDex(Pokedex):
         self.runner = False
 
     def display(self):
+        """Initialise pygame et instancie la carte"""
         pg.init()
         map1 = Map()
 

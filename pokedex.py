@@ -15,8 +15,14 @@ import json
 import time
 from constants import POKEDEX_FILE, POKEDEX_SAVE, SP_POK_PATH, SP_TYP_PATH
 
-
+"""Pour des question de droit, il a été décidé de ne pas stocker les images des pokemons dans le programme.
+    C'est le joueur qui télécharge le pokedex en lançant le jeu"""
 def init_db():
+    """Initialise la base de donnée dans la variable data
+
+    Returns: True ou reessaie 
+    
+    """
     url = "https://tyradex.tech/api/v1/pokemon"
     headers = {
         "User-Agent": "RobotPokemon",
@@ -39,11 +45,17 @@ def init_db():
         init_db()
 
 
-
-
 class Pokedex:
 
     def __init__(self, save=None):
+        """Verifie si le pokedex existe
+
+        Attrs: save
+
+        Sinon appel la fonction init_db()
+        Si pokedex vide, ajoute  5 pokemons au hazard puis appel save_pokedex()
+        Sinon appel load_pokedex()
+        """
         if not os.path.isfile(POKEDEX_FILE):
             try:
                 init_db()
@@ -51,6 +63,7 @@ class Pokedex:
                 print(f'Exception: {e}')
         else:
             print("Pokedex DB is already present.")
+
 
         if save is None:
             self.data = [None] * self.len_pokedex()
@@ -63,6 +76,16 @@ class Pokedex:
             self.data = self.load_pokedex(save)
 
     def add_pokemon(self, id_pok):
+        """Ajoute un pokemon
+
+        Attrs:
+        -id_pok (int):
+
+        Returns: charge les sprites regular, shiny et le type en.png
+        
+        appel la méthode save_pokedex (ci-dessous )
+        
+        """
         with open(POKEDEX_FILE, 'r') as f:
             if self.data[id_pok] is None:
                 json_data = json.load(f)
@@ -80,12 +103,27 @@ class Pokedex:
                         # wget.download(k['image'], out=f'{SP_TYP_PATH}{k["name"]}.png')
         self.save_pokedex()
 
+
     def save_pokedex(self):
+        """Ajoute le pokemon au pokedex
+
+        Attrs: self
+
+        Returns:  met à jour le fichier ./save/save.json'
+        
+        """
         filename = f'{POKEDEX_SAVE}'
         with open(filename, 'w') as f:
             json.dump(self.data, f, indent=2)
 
     def load_pokedex(self, filename):
+        """Charge le pokedex
+        
+        Attrs: ./save/save.json'
+
+        Returns: liste data avec les données de save.json
+        
+        """
         data = [None]
         with open(filename, 'r') as f:
             json_data = json.load(f)
@@ -98,6 +136,12 @@ class Pokedex:
 
     @staticmethod
     def len_pokedex():
+        """Longueur du pokedex
+
+        Ouvre 'pokedex/pokedex.json'
+        
+        Returns: int longueur du pokedex
+        """
         with open(POKEDEX_FILE, 'r') as f:
             json_data = json.load(f)
             return len(json_data)
@@ -114,12 +158,18 @@ class Pokedex:
             return self.data[id_pok]
 
     def read_pokedex(self):
+        """Lis le pokedex
+        
+        Attrs: self
+        
+        Returns: liste pk_data
+        """
         pok_data = []
         for k in self.data:
             if k is not None:
                 pok_data.append(k)
         return pok_data
 
-
-if __name__ == '__main__':
-    pass
+# PEUT-ON SUPPRIMER LE CODE CI-DESSOUS ?
+# if __name__ == '__main__':
+#     pass
