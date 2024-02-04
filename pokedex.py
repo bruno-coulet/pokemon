@@ -20,7 +20,7 @@ from constants import POKEDEX_FILE, POKEDEX_SAVE, SP_POK_PATH, SP_TYP_PATH
 def init_db():
     """Initialise la base de donnée dans la variable data
 
-    Returns: True ou reessaie 
+    Returns: True et la variable data (str) ou reessaie 
     
     """
     url = "https://tyradex.tech/api/v1/pokemon"

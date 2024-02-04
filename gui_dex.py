@@ -87,7 +87,7 @@ class GuiDex(Pokedex):
 
         Args: fichier json, optional
         
-        Récupère les info du pokemon pour affichage    
+        Récupère les infos du pokemon pour affichage    
         """
         super().__init__(save=save)
         self.current = 0
@@ -140,19 +140,21 @@ class GuiDex(Pokedex):
         self.runner = False
 
     def display(self):
-        """Initialise pygame et instancie la carte"""
+        """Initialise pygame, instancie la carte, crée et instancie les boutons, boucle de pokedex
+        Returns: id du pokemon du joueur (int)
+        """
         pg.init()
         map1 = Map()
 
         choose_pokemon = GuiRec(self.current_pokemon_name, None, (30, 60), (512 * 3 / 4, 512 * 3 / 4))
         pokemon_description = GuiRec("Caractéristiques", "None", ((DSP_WIDTH - 350 - 30), 60), (350, 512 * 3 / 4))
 
-        prev_button = Button(position=(150, 470), size=(100, 50), clr=(0, 220, 0), cngclr=(255, 0, 0),
+        prev_button = Button(position=(150, 520), size=(BTN_WIDTH/2, BTN_HEIGHT), clr=(BTN_COLOR), cngclr=(BTN_HOVER_COLOR),
                              func=self.minus_current, text='Prev.')
-        next_button = Button((280, 470), (100, 50), (0, 220, 0), (255, 0, 0), func=self.plus_current, text='Next')
-        select_button = Button(position=(510, 470), size=(100, 50), clr=(0, 220, 220), cngclr=(255, 0, 0),
+        next_button = Button((280, 520), (100, 50), (0, 220, 0), (255, 0, 0), func=self.plus_current, text='Next')
+        select_button = Button(position=(510, 520), size=(BTN_WIDTH/2, BTN_HEIGHT), clr=(BTN_COLOR), cngclr=(BTN_HOVER_COLOR),
                                func=self.select, text='Select')
-        quit_button = Button((700, 470), (100, 50), (0, 220, 220), (255, 0, 0), func=self.quit, text='Quit')
+        quit_button = Button((700, 520), (BTN_WIDTH/2, BTN_HEIGHT), (BTN_COLOR), (BTN_HOVER_COLOR), func=self.quit, text='Quit')
         button_list = [prev_button, next_button, select_button, select_button, quit_button]
 
         while self.runner:

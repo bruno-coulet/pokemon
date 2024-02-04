@@ -10,14 +10,6 @@
 from constants import *
 import pygame as pg
 
-BTN_WIDTH = 200
-BTN_HEIGHT = 50
-BTN_SIZE = (BTN_WIDTH, BTN_HEIGHT)
-BTN_COLOR = COLORS['LIGHT_BLUE']
-BTN_HOVER_COLOR = COLORS['DARK_BLUE']
-BTN_TXT_COLOR = COLORS['WHITE']
-
-
 class Text:
     def __init__(self, msg, position, clr=COLORS['CREME'], font="Segoe Print", font_size=15, mid=False):
         self.position = position
