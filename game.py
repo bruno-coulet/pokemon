@@ -18,8 +18,6 @@ import random
 import os
 
 
-
-
 class Game:
     def __init__(self):
         self.runner = True
@@ -61,6 +59,7 @@ class Game:
         g.play()
 
     def run(self):
+        """Lance le menu"""
         map1 = Map(image="assets/images/cerisier.jpg")
         hypocampe = pg.transform.scale(pg.image.load(f"{SP_POK_PATH}117-shiny.png"), (150, 150))
         dinosaure = pg.transform.scale(pg.image.load(f"{SP_POK_PATH}112-regular.png"), (450, 450))
@@ -87,12 +86,11 @@ class Game:
 
         while self.runner:
             SCREEN.blit(map1.image, map1.rect)
-            
-            # SCREEN.blit(dinosaure, (-10, 160))
             # SCREEN.blit(crabe, (490, -30))
             SCREEN.blit(gris_tranparent, (0, 0))
             SCREEN.blit(homard, (580, 330))
-            # SCREEN.blit(escargot, (385, 130))
+            SCREEN.blit(dinosaure, (-10, 160))
+            SCREEN.blit(escargot, (385, 130))
             # SCREEN.blit(hypocampe, (290, 43))
 
             for event in pg.event.get():

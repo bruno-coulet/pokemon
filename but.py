@@ -11,7 +11,7 @@ from constants import *
 import pygame as pg
 
 class Text:
-    def __init__(self, msg, position, clr=COLORS['CREME'], font="Segoe Print", font_size=15, mid=False):
+    def __init__(self, msg, position, clr=BTN_TXT_COLOR, font=BTN_FONT, font_size=15, mid=False):
         self.position = position
         self.font = pg.font.SysFont(font, font_size)
         self.txt_surf = self.font.render(msg, True, clr)
@@ -26,7 +26,6 @@ class Text:
         screen.blit(self.txt_surf, self.position)
 
 
-# font="Segoe Print"
 class Button:
     def __init__(self, position, size, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='',
                  font=BTN_FONT, font_size=16, font_clr=BTN_TXT_COLOR):
