@@ -86,13 +86,14 @@ class Game:
         pg.display.flip()
 
         while self.runner:
-            SCREEN.blit(gris_tranparent, (0, 0))
             SCREEN.blit(map1.image, map1.rect)
-            SCREEN.blit(hypocampe, (290, 43))
-            SCREEN.blit(dinosaure, (-10, 160))
+            
+            # SCREEN.blit(dinosaure, (-10, 160))
+            # SCREEN.blit(crabe, (490, -30))
+            SCREEN.blit(gris_tranparent, (0, 0))
             SCREEN.blit(homard, (580, 330))
-            SCREEN.blit(escargot, (385, 130))
-            SCREEN.blit(crabe, (490, -30))
+            # SCREEN.blit(escargot, (385, 130))
+            # SCREEN.blit(hypocampe, (290, 43))
 
             for event in pg.event.get():
                 if event.type == pg.QUIT:
