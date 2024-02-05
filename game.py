@@ -17,12 +17,7 @@ from pokemon import Pokemon
 import random
 import os
 
-BTN_WIDTH = 200
-BTN_HEIGHT = 50
-BTN_SIZE = (BTN_WIDTH, BTN_HEIGHT)
-BTN_COLOR = COLORS['LIGHT_BLUE']
-BTN_HOVER_COLOR = COLORS['ORANGE']
-BTN_TXT_COLOR = COLORS['CREME']
+
 
 
 class Game:
@@ -32,7 +27,7 @@ class Game:
     
     def loadpokedex(self):
         self.load = True
-    
+  
     def see_pokedex(self):
         if self.load:
             dex = GuiDex(save=POKEDEX_SAVE)

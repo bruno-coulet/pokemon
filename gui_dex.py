@@ -151,7 +151,7 @@ class GuiDex(Pokedex):
 
         prev_button = Button(position=(150, 520), size=(BTN_WIDTH/2, BTN_HEIGHT), clr=(BTN_COLOR), cngclr=(BTN_HOVER_COLOR),
                              func=self.minus_current, text='Prev.')
-        next_button = Button((280, 520), (100, 50), (0, 220, 0), (255, 0, 0), func=self.plus_current, text='Next')
+        next_button = Button((280, 520), (BTN_WIDTH/2, BTN_HEIGHT), (BTN_COLOR), (BTN_HOVER_COLOR), func=self.plus_current, text='Next')
         select_button = Button(position=(510, 520), size=(BTN_WIDTH/2, BTN_HEIGHT), clr=(BTN_COLOR), cngclr=(BTN_HOVER_COLOR),
                                func=self.select, text='Select')
         quit_button = Button((700, 520), (BTN_WIDTH/2, BTN_HEIGHT), (BTN_COLOR), (BTN_HOVER_COLOR), func=self.quit, text='Quit')
