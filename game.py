@@ -72,7 +72,7 @@ class Game:
         gris_tranparent.fill((COLORS['TRANSPARENT_BLACK']))
         pg.font.init()
         new_game = MenuButton(position=(200, 100), size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=self.play,
-                              text='Nouveau combat', font_clr=BTN_TXT_COLOR, font=KANIT)
+                              text='Nouveau combat', font_clr=BTN_TXT_COLOR)
         load = MenuButton(position=(300, 200), size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR,
                           func=self.loadpokedex, text='Charger une sauvegarde', font_clr=BTN_TXT_COLOR)
         pokedex = MenuButton((400, 300), BTN_SIZE, BTN_COLOR, BTN_HOVER_COLOR, func=self.see_pokedex,

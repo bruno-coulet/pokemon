@@ -26,9 +26,10 @@ class Text:
         screen.blit(self.txt_surf, self.position)
 
 
+# font="Segoe Print"
 class Button:
-    def __init__(self, position, size, clr=COLORS['LIGHT_BLUE'], cngclr=COLORS['HOVER_COLOR'], func=None, text='',
-                 font="Segoe Print", font_size=16, font_clr=COLORS['CREME']):
+    def __init__(self, position, size, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='',
+                 font=BTN_FONT, font_size=16, font_clr=BTN_TXT_COLOR):
         self.clr = clr
         self.size = size
         self.func = func
@@ -66,10 +67,10 @@ class Button:
         if self.func:
             return self.func(*args, **kwargs)
 
-        
+    #   font=KANIT_BOLD
 class MenuButton(Button):
     def __init__(self, position, size=BTN_SIZE, clr=BTN_COLOR, cngclr=BTN_HOVER_COLOR, func=None, text='',
-                 font=KANIT_BOLD, font_size=16, font_clr=BTN_TXT_COLOR):
+                 font=BTN_FONT, font_size=16, font_clr=BTN_TXT_COLOR):
         super().__init__(position, size, clr, cngclr, func, text, font, font_size, font_clr)
         # self.font = pg.font.SysFont(font, font_size)
         self.font = font
