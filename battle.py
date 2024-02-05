@@ -15,6 +15,15 @@ from math import log, sqrt
 
 class Battle:
     def __init__(self, pokemon1: Pokemon, pokemon2: Pokemon, pokedex: Pokedex):
+        """Récupère les caractéristiques des pokemons
+
+        Args:
+            pokemon1 (Pokemon): points de vie, d'attaque et d'attaque spéciale
+            pokemon2 (Pokemon): points de vie, d'attaque et d'attaque spéciale
+            pokedex (Pokedex): pokemons disponibles
+
+        Ajoute le pokemon 2 au pokedex si besoin
+        """
         self.dex = pokedex
 
         self.p1 = pokemon1
@@ -35,12 +44,15 @@ class Battle:
             self.dex.save_pokedex()
 
     def first_atk(self):
+        """Détermine si l'attaque réussie
+        Returns: 1 ou 2 (int)"""
         if self.p1.speed > self.p2.speed:
             return 1
         else:
             return 2
 
     def __set_atk_pts(self):
+        """Calcule l'effet de l'attaque suivant le tableau de coefficient"""
         m1 = self.__set_coeff_atk(self.p1.types, self.p2.resistances)
         m2 = self.__set_coeff_atk(self.p2.types, self.p1.resistances)
         self.__p1_atk, self.__p1_spe_atk = round(self.__p1_atk * m1 * 0.3), round(self.__p1_spe_atk * m1 * 0.3)
@@ -48,6 +60,15 @@ class Battle:
 
     @staticmethod
     def __set_coeff_atk(types, resistances):
+        """Détermine les coefficient
+
+        Args:
+            (str): type du pokemon
+            resistances (int): resistance du pokemon
+
+        Returns:
+            (float): coefficient d'attaque
+        """
         m = 0
         count = 0
         for k in types:

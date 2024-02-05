@@ -63,11 +63,11 @@ class GuiBattle(Battle):
         pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_YELLOW'], (0, 0, 300, 80), width=5)
         screen.blit(ellipse_surface, (POK_1_x - 10, POK_1_y + 250))
         
-        if len(self.__p1_sprites) == 2:
-            screen.blit(pg.transform.scale(self.__p1_sprites[k], size=POK1_DIMS), (POK_1_x, POK_1_y))
-        else:
-            if k == 0:
-                screen.blit(pg.transform.scale(self.__p1_sprites[0], size=POK1_DIMS), (POK_1_x, POK_1_y))
+        # if len(self.__p1_sprites) == 2:
+        screen.blit(pg.transform.scale(self.__p1_sprites[k], size=POK1_DIMS), (POK_1_x, POK_1_y))
+        # else:
+        #     if k == 0:
+        #         screen.blit(pg.transform.scale(self.__p1_sprites[0], size=POK1_DIMS), (POK_1_x, POK_1_y))
 
     def draw_pokemon_2(self, k, screen=SCREEN):
         ellipse_surface = pg.Surface((320, 120), pg.SRCALPHA)
@@ -76,11 +76,11 @@ class GuiBattle(Battle):
         pg.draw.ellipse(ellipse_surface, COLORS['TRANSPARENT_YELLOW'], (0, 0, 300, 80), width=5)
         screen.blit(ellipse_surface, (POK_2_x, POK_2_y + 200))
 
-        if len(self.__p2_sprites) == 2:
-            screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
-        else:
-            if k == 0:
-                screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
+        # if len(self.__p2_sprites) == 2:
+        screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
+        # else:
+        #     if k == 0:
+        #         screen.blit(pg.transform.scale(self.__p2_sprites[k], size=POK2_DIMS), (POK_2_x, POK_2_y))
 
     def draw_bar(self, screen=SCREEN):
         hp1, hp2 = self.damage_bar()
@@ -112,7 +112,7 @@ class GuiBattle(Battle):
     MESSAGES = {
         "abandon_message": message(text='Abandonner le combat!'),
         "esquive_message": message(text='Esquive'),
-        "no_flee": message(text='Fuite échouée'),
+        "no_flee": message(text='Echec de la fuite'),
         "failed_abandon_message": message(text='Echec de l\'abandon!'),
         "attack_message": message(text='Attaque!'),
         "failed_attack_message": message(text='Attaque ratée!'),
