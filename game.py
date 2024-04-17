@@ -55,7 +55,7 @@ class Game:
             dex = GuiDex()
             self.load = True
         dexc = GuiDex(save=POKEDEX_FILE)
-        pok1 = Pokemon(dex.get_pokemon(dex.read_pokedex()[0]['pokedexId']))
+        pok1 = Pokemon(dex.get_pokemon(dex.read_pokedex()[0]['pokedex_id']))
         pok2 = Pokemon(dexc.get_pokemon(random.randint(1, 1017)))
         battle = GuiBattle(pok1, pok2, dex)
         battle.play()
